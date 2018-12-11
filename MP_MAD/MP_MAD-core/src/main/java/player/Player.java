@@ -4,6 +4,7 @@ import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.util.Duration;
 
 public class Player {
 
@@ -11,52 +12,54 @@ public class Player {
     public MediaPlayer mediaPlayer;
     public static String defaultPath = System.getProperty("user.home") + "/Desktop";
     private String currentTrack;
+    private boolean trackAssigned;
+    private double volume;
 
     private Player() {
-
+        trackAssigned = false;
+        volume = 0.5;
     }
 
     public void play(String track) {
-        //TODO randomowe sprawdzanie
-        //System.out.print(mediaPlayer.getCurrentTime());
-        //System.out.print(mediaPlayer.getStatus());
-        //System.out.println(mediaPlayer.getStopTime());
+
+        trackAssigned = true;
 
         //jezeli podana ta sama sciezka, co wczesniej
         if (track.equals(currentTrack)) {
-            Status status = mediaPlayer.getStatus();
-            if (status != Status.PLAYING) {
+            if (!isPlaying()) {
                 mediaPlayer.play();
             } else if (hasEnded()) {
-                mediaPlayer.stop();
-                mediaPlayer.play();
+                mediaPlayer.seek(Duration.ZERO);
             } else {
-                mediaPlayer.stop();
+                mediaPlayer.pause();
             }
         } //jezeli podana inna sciezka
         else {
             //jezeli inny utwor jest w trakcie odtwarzania
             if (mediaPlayer != null) {
-                Status status = mediaPlayer.getStatus();
-                if (status == Status.PLAYING) {
+                if (isPlaying()) {
                     mediaPlayer.stop();
                 }
             }
             Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
-            mediaPlayer.setVolume(0.5);
+            mediaPlayer.setVolume(volume);
             currentTrack = track;
-            Status status = mediaPlayer.getStatus();
-            if (status != Status.PLAYING) {
+            if (!(isPlaying())) {
                 mediaPlayer.play();
-            } else if (hasEnded()) {
-                mediaPlayer.stop();
-                mediaPlayer.play();
-            } else {
-                mediaPlayer.stop();
+            }else {
+                mediaPlayer.pause();
             }
         }
+        //TODO randomowe sprawdzanie
+        System.out.print(mediaPlayer.getCurrentTime());
+        System.out.print(mediaPlayer.getStatus());
+        System.out.println(mediaPlayer.getStopTime());
+    }
 
+    public boolean isPlaying() {
+        Status status = mediaPlayer.getStatus();
+        return status == Status.PLAYING;
     }
 
     public boolean hasEnded() {
@@ -65,6 +68,18 @@ public class Player {
 
     public static Player getInstance() {
         return instance;
+    }
+
+    public boolean isTrackAssigned() {
+        return trackAssigned;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    public double getCurrentTime() {
+        return mediaPlayer.getCurrentTime().toMillis();
     }
 
     //TODO sciezki cos
