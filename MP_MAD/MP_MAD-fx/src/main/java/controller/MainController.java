@@ -13,11 +13,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -50,6 +48,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button playButton;
+
+    @FXML
+    private MenuItem addList;
 
     @FXML
     void playButtonActionListener(ActionEvent event) {
@@ -95,6 +96,13 @@ public class MainController implements Initializable {
 
     }
 
+    @FXML
+    void addListActionListener(ActionEvent event) {
+        Playlist playlist = new Playlist();
+        playlist.setName("Lista");
+        System.out.println(playlist.getName());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         volume.setValue(0.5 * 100);
@@ -116,7 +124,6 @@ public class MainController implements Initializable {
             @Override
             public Void call() {
                 Player player = Player.getInstance();
-                int counter=1;
                 while (true) {
                     if ((player.mediaPlayer != null)) {
                         //chyba isTrackAssigned bedzie mozna wywalic
@@ -128,7 +135,7 @@ public class MainController implements Initializable {
                     }
                     //jak ani razu nie uruchomimy piosenki
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(400);
                     } catch (InterruptedException e) {
                         System.out.println("refreshSeek error");
                     }

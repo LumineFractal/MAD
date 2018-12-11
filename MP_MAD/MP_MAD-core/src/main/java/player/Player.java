@@ -52,9 +52,9 @@ public class Player {
             }
         }
         //TODO randomowe sprawdzanie
-        System.out.print(mediaPlayer.getCurrentTime());
-        System.out.print(mediaPlayer.getStatus());
-        System.out.println(mediaPlayer.getStopTime());
+        //System.out.print(mediaPlayer.getCurrentTime());
+        //System.out.print(mediaPlayer.getStatus());
+        //System.out.println(mediaPlayer.getStopTime());
     }
 
     public boolean isPlaying() {
