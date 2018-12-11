@@ -23,7 +23,7 @@ public class Playlist {
         return tracks;
     }
 
-    public void addTracks(String path) {
-        tracks.add(path);
+    public void addTrack(Track track) {
+        tracks.add(track);
     }
 }
