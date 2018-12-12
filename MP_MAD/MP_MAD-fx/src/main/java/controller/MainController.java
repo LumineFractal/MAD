@@ -18,15 +18,19 @@ import javafx.concurrent.Task;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import org.apache.maven.model.Model;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import player.Player;
+import player.PlaylistManager;
 import sources.Playlist;
 import sources.Track;
 
 public class MainController implements Initializable {
+
+    private static PlaylistManager playlistManager = PlaylistManager.getInstance();
 
     @FXML
     private Button nextButton;
@@ -98,9 +102,11 @@ public class MainController implements Initializable {
 
     @FXML
     void addListActionListener(ActionEvent event) {
-        Playlist playlist = new Playlist();
-        playlist.setName("Lista");
-        System.out.println(playlist.getName());
+        playlistManager.addPlaylist("Playlista1");
+        //wypisanie wszystkich playlist
+        for(Playlist playlist : playlistManager.getPlaylistList()) {
+            System.out.println(playlist.getName());
+        }
     }
 
     @Override

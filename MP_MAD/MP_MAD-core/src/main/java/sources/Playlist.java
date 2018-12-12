@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //TODO to jeszcze nie przemyslane
 public class Playlist {
     private String name;
-    ArrayList tracks;
+    private ArrayList tracks;
 
     public Playlist(){
         tracks = new ArrayList();
