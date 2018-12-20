@@ -5,27 +5,25 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
+import sources.Track;
 
 public class Player {
 
     private static final Player instance = new Player();
-    public MediaPlayer mediaPlayer;
-    public static String defaultPath = System.getProperty("user.home") + "/Desktop";
-    private String currentTrack;
-    private boolean trackAssigned;
+    private MediaPlayer mediaPlayer;
+    //TODO private Observer observer;
+    private Track track;
     private double volume;
+    private int actualPlaylist;
 
     private Player() {
-        trackAssigned = false;
         volume = 0.5;
     }
 
-    public void play(String track) {
-
-        trackAssigned = true;
+    public void play(int actualPlaylist, Track track) {
 
         //jezeli podana ta sama sciezka, co wczesniej
-        if (track.equals(currentTrack)) {
+        if (this.track.getPath() == track.getPath() && this.actualPlaylist == actualPlaylist) {
             if (!isPlaying()) {
                 mediaPlayer.play();
             } else if (hasEnded()) {
@@ -33,6 +31,7 @@ public class Player {
             } else {
                 mediaPlayer.pause();
             }
+
         } //jezeli podana inna sciezka
         else {
             //jezeli inny utwor jest w trakcie odtwarzania
@@ -41,20 +40,23 @@ public class Player {
                     mediaPlayer.stop();
                 }
             }
-            Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track).toURI().toString());
+            Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track.getPath()).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
-            currentTrack = track;
             if (!(isPlaying())) {
                 mediaPlayer.play();
             }else {
                 mediaPlayer.pause();
             }
         }
-        //TODO randomowe sprawdzanie
-        //System.out.print(mediaPlayer.getCurrentTime());
-        //System.out.print(mediaPlayer.getStatus());
-        //System.out.println(mediaPlayer.getStopTime());
+    }
+
+    public Track getTrack(){
+        return track;
+    }
+
+    public int getActualPlaylist() {
+        return actualPlaylist;
     }
 
     public boolean isPlaying() {
@@ -70,8 +72,8 @@ public class Player {
         return instance;
     }
 
-    public boolean isTrackAssigned() {
-        return trackAssigned;
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 
     public void setVolume(double volume) {
@@ -82,9 +84,17 @@ public class Player {
         return mediaPlayer.getCurrentTime().toMillis();
     }
 
-    //TODO sciezki cos
-    public void test() {
-        //players.add(createPlayer("file:///" + (dir + "\\" + track).replace("\\", "/").replaceAll(" ", "%20")));
+    //TODO observer
+    /*public void attach(Observer observer){
+
     }
+
+    public void detach(Observer observer){
+
+    }
+
+    public void notify(){
+
+    }*/
 
 }

@@ -7,8 +7,13 @@ import sources.Track;
 import java.util.List;
 
 public class Facade {
-    private PlaylistManager playlistManager;
-    private Player player;
+    private static PlaylistManager playlistManager;
+    private static Player player;
+
+    public Facade(){
+        player = Player.getInstance();
+        playlistManager = PlaylistManager.getInstance();
+    }
 
     public void playTrack(Track track){
 
@@ -34,5 +39,20 @@ public class Facade {
 
     }
 
-    
+    public void removetrack(int idx, Track track){
+
+    }
+
+    public void chooseIterator(int idx){
+
+    }
+
+    public void nextTrack(){
+
+    }
+
+    public void previousTrack(){
+
+    }
+
 }

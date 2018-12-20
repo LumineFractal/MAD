@@ -59,14 +59,28 @@ public class MainController implements Initializable {
     @FXML
     void playButtonActionListener(ActionEvent event) {
         Player player = Player.getInstance();
-        String track = "/Sonnetica.mp3";
-        player.play(track);
+        String path = "Sonnetica.mp3";
+        Track track = null;
+        try {
+            track = new Track(new File(path));
+        } catch (CannotReadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TagException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyFileException e) {
+            e.printStackTrace();
+        } catch (InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
+        player.play(1, track);
     }
 
     @FXML
     void previousButtonActionListener(ActionEvent event) throws CannotReadException, IOException, TagException, ReadOnlyFileException {
 
-        //TODO test tagów (wywalic pozniej powyzsze wyrzucenia wyjatkow)
+        //TODO test tag?w (wywalic pozniej powyzsze wyrzucenia wyjatkow)
         try {
             Track track = new Track(new File("Sunglow.mp3"));
             System.out.println(track.getArtist());
@@ -91,8 +105,22 @@ public class MainController implements Initializable {
     @FXML
     void nextButtonActionListener(ActionEvent event) {
         Player player = Player.getInstance();
-        String track = "/Sunglow.mp3";
-        player.play(track);
+        String path = "Sunglow.mp3";
+        Track track = null;
+        try {
+            track = new Track(new File(path));
+        } catch (CannotReadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TagException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyFileException e) {
+            e.printStackTrace();
+        } catch (InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
+        player.play(2, track);
     }
 
     @FXML
@@ -115,7 +143,7 @@ public class MainController implements Initializable {
         volume.valueProperty().addListener((Observable observable) -> {
             Player player = Player.getInstance();
             player.setVolume(volume.getValue() / 100);
-            player.mediaPlayer.setVolume(volume.getValue() / 100);
+            player.getMediaPlayer().setVolume(volume.getValue() / 100);
         });
 
         progressBar.setOnMouseReleased((MouseEvent event) -> {
@@ -131,11 +159,11 @@ public class MainController implements Initializable {
             public Void call() {
                 Player player = Player.getInstance();
                 while (true) {
-                    if ((player.mediaPlayer != null)) {
+                    if ((player.getMediaPlayer() != null)) {
                         //chyba isTrackAssigned bedzie mozna wywalic
-                        if (progressBar.isValueChanging() == false && player.isPlaying() && player.isTrackAssigned()) {
-                            double c2 = player.mediaPlayer.getCurrentTime().toMillis();
-                            double s2 = (c2 / player.mediaPlayer.getStopTime().toMillis() * 100);
+                        if (progressBar.isValueChanging() == false && player.isPlaying() && player.getTrack() != null) {
+                            double c2 = player.getMediaPlayer().getCurrentTime().toMillis();
+                            double s2 = (c2 / player.getMediaPlayer().getStopTime().toMillis() * 100);
                             progressBar.setValue(s2);
                         }
                     }
@@ -156,7 +184,7 @@ public class MainController implements Initializable {
 
     public void setCurrentTime() {
         Player player = Player.getInstance();
-        double newSongTime = ((progressBar.getValue() / 100) * player.mediaPlayer.getStopTime().toMillis());
-        player.mediaPlayer.seek(Duration.millis(newSongTime));
+        double newSongTime = ((progressBar.getValue() / 100) * player.getMediaPlayer().getStopTime().toMillis());
+        player.getMediaPlayer().seek(Duration.millis(newSongTime));
     }
 }
