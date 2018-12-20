@@ -23,7 +23,9 @@ public class Player {
     public void play(int actualPlaylist, Track track) {
 
         //jezeli podana ta sama sciezka, co wczesniej
-        if (this.track.getPath() == track.getPath() && this.actualPlaylist == actualPlaylist) {
+        if(this.track == null){
+            this.track = track;
+        }else if (this.track.getPath() == track.getPath() && this.actualPlaylist == actualPlaylist) {
             if (!isPlaying()) {
                 mediaPlayer.play();
             } else if (hasEnded()) {
@@ -40,7 +42,8 @@ public class Player {
                     mediaPlayer.stop();
                 }
             }
-            Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track.getPath()).toURI().toString());
+            Media hit = new Media(new File( track.getPath()).toURI().toString());
+            //Windows  Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track.getPath()).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
             if (!(isPlaying())) {

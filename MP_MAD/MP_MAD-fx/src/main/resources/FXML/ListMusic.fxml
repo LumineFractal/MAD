@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 
-<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragOver="#handle" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="Nr." />
-      <TableColumn maxWidth="180.0" minWidth="180.0" prefWidth="180.0" text="Name" />
-      <TableColumn maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Artist" />
-      <TableColumn maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Time" />
+      <TableColumn fx:id="nr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="Nr." />
+      <TableColumn fx:id="name" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Name" />
+      <TableColumn fx:id="artist" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Artist" />
+      <TableColumn fx:id="album" maxWidth="1.7976931348623157E308" minWidth="55.0" prefWidth="-1.0" text="Album" />
+      <TableColumn fx:id="year" maxWidth="1.7976931348623157E308" minWidth="40.0" prefWidth="-1.0" text="Year" />
+      <TableColumn fx:id="genre" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Genre" />
+      <TableColumn fx:id="trackNumber" maxWidth="1.7976931348623157E308" minWidth="110.0" prefWidth="-1.0" text="Track number" />
+      <TableColumn fx:id="time" maxWidth="1.7976931348623157E308" minWidth="45.0" prefWidth="-1.0" text="Time" />
    </columns>
 </TableView>
