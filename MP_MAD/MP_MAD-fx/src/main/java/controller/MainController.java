@@ -57,7 +57,6 @@ public class MainController implements Initializable {
 
     @FXML
     void playButtonActionListener(ActionEvent event) {
-        Player player = Player.getInstance();
         String path = "Sonnetica.mp3";
         Track track = null;
         try {
@@ -73,7 +72,7 @@ public class MainController implements Initializable {
         } catch (InvalidAudioFrameException e) {
             e.printStackTrace();
         }
-        player.play(1, track);
+        facade.playTrack(track);
     }
 
     @FXML
@@ -103,23 +102,7 @@ public class MainController implements Initializable {
 
     @FXML
     void nextButtonActionListener(ActionEvent event) {
-        Player player = Player.getInstance();
-        String path = "Sunglow.mp3";
-        Track track = null;
-        try {
-            track = new Track(new File(path));
-        } catch (CannotReadException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TagException e) {
-            e.printStackTrace();
-        } catch (ReadOnlyFileException e) {
-            e.printStackTrace();
-        } catch (InvalidAudioFrameException e) {
-            e.printStackTrace();
-        }
-        player.play(2, track);
+        
     }
 
     @FXML
@@ -138,9 +121,7 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         volume.setValue(0.5 * 100);
         volume.valueProperty().addListener((Observable observable) -> {
-            Player player = Player.getInstance();
-            player.setVolume(volume.getValue() / 100);
-            player.getMediaPlayer().setVolume(volume.getValue() / 100);
+            facade.setVolume(volume.getValue());
         });
 
         progressBar.setOnMouseReleased((MouseEvent event) -> {

@@ -24,11 +24,12 @@ public class Facade {
     }
 
     public void playTrack(Track track){
-
+        player.play(1, track);
     }
 
     public void setVolume(double volume){
-
+        player.setVolume(volume / 100);
+        player.getMediaPlayer().setVolume(volume / 100);
     }
 
     public void createPlaylist(String name){
