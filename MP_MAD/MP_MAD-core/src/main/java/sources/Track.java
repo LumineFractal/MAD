@@ -1,7 +1,5 @@
 package sources;
 
-import java.io.File;
-import java.io.IOException;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -10,6 +8,9 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
@@ -21,6 +22,7 @@ public class Track {
     private String album;
     private String year;
     private String genre;
+    private String trackNumber;
     private int length;
     private String path;
     
@@ -33,6 +35,7 @@ public class Track {
         this.title = tag.getFirst(FieldKey.TITLE);
         this.year = tag.getFirst(FieldKey.YEAR);
         this.genre = tag.getFirst(FieldKey.GENRE);
+        this.trackNumber = tag.getFirst(FieldKey.TRACK);
         this.length = f.getAudioHeader().getTrackLength();
         this.path = file.getAbsolutePath();
     }
@@ -55,6 +58,10 @@ public class Track {
 
     public String getGenre() {
         return genre;
+    }
+
+    public String getTrackNumber() {
+        return trackNumber;
     }
 
     public int getLength() {

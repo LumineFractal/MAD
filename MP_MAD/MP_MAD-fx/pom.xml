@@ -11,6 +11,13 @@
 
     <artifactId>MP_MAD-fx</artifactId>
 
+    <repositories>
+        <repository>
+            <id>jaudiotagger-repository</id>
+            <url>https://dl.bintray.com/ijabz/maven</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.zenjava</groupId>

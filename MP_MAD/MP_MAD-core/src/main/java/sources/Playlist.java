@@ -1,14 +1,15 @@
 package sources;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //TODO to jeszcze nie przemyslane
 public class Playlist {
     private String name;
-    private ArrayList tracks;
+    private List<Track> tracks;
 
     public Playlist(){
-        tracks = new ArrayList();
+        tracks = new ArrayList<>();
     }
     
     public String getName() {
@@ -19,7 +20,7 @@ public class Playlist {
         this.name = name;
     }
 
-    public ArrayList getTracks() {
+    public List<Track> getTracks() {
         return tracks;
     }
 

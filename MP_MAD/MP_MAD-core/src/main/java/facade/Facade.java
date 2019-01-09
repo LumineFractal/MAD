@@ -15,6 +15,14 @@ public class Facade {
         playlistManager = PlaylistManager.getInstance();
     }
 
+    public static PlaylistManager getPlaylistManager() {
+        return playlistManager;
+    }
+
+    public static Player getPlayer() {
+        return player;
+    }
+
     public void playTrack(Track track){
 
     }
@@ -24,7 +32,7 @@ public class Facade {
     }
 
     public void createPlaylist(String name){
-
+        playlistManager.createPlaylist(name);
     }
 
     public void removePlaylist(String name){

@@ -1,36 +1,32 @@
 package controller;
 
-import java.io.File;
-import java.io.IOException;
+import facade.Facade;
+import javafx.beans.Observable;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.Observable;
-import javafx.concurrent.Task;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import org.apache.maven.model.Model;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import player.Player;
-import player.PlaylistManager;
 import sources.Playlist;
 import sources.Track;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class MainController implements Initializable {
 
-    private static PlaylistManager playlistManager = PlaylistManager.getInstance();
+    private Facade facade = new Facade();
 
     @FXML
     private Button nextButton;
@@ -48,13 +44,16 @@ public class MainController implements Initializable {
     private ToggleButton playmodeButton;
 
     @FXML
+    private TabPane playlistContainer;
+
+    @FXML
     private Slider progressBar;
 
     @FXML
     private Button playButton;
 
     @FXML
-    private MenuItem addList;
+    private MenuItem menuAddList;
 
     @FXML
     void playButtonActionListener(ActionEvent event) {
@@ -130,11 +129,9 @@ public class MainController implements Initializable {
 
     @FXML
     void addListActionListener(ActionEvent event) {
-        playlistManager.addPlaylist("Playlista1");
-        //wypisanie wszystkich playlist
-        for(Playlist playlist : playlistManager.getPlaylistList()) {
-            System.out.println(playlist.getName());
-        }
+        facade.createPlaylist(String.valueOf(playlistContainer.getTabs().size()));
+        Tab tab = new Tab(facade.getPlaylistManager().getPlaylist(facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+        playlistContainer.getTabs().add(tab);
     }
 
     @Override
