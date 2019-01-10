@@ -1,9 +1,12 @@
 package facade;
 
+import iterator.*;
 import player.Player;
 import player.PlaylistManager;
 import sources.Track;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Facade {
@@ -60,7 +63,29 @@ public class Facade {
 
     }
 
-    public void chooseIterator(int idx) {
+    public Iterator<Track> chooseIterator(EnumIterator.iterator iterator, ArrayList<Track> tracks) {
+        switch (iterator) {
+            case DEFAULT: {
+                System.out.println("jeden");
+                return new IteratorDefault(tracks);
+            }
+            case REPEATABLE: {
+                System.out.println("jeden");
+                return new IteratorRepeatable(tracks);
+            }
+            case RANDOM: {
+                System.out.println("jeden");
+                return new IteratorRandom(tracks);
+            }
+            case RANDOMREPEATABLE: {
+                System.out.println("jeden");
+                return new IteratorRandomRepeatable(tracks);
+            }
+            default: {
+                System.out.println("default");
+                return new IteratorDefault(tracks);
+            }
+        }
 
     }
 

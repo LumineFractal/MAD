@@ -25,6 +25,7 @@ public class IteratorDefault implements Iterator<Track> {
     @Override
     public Track next() {
         y++;
+        System.out.println(y + tracks.get(y).getPath());
         return (Track) tracks.get(y);
     }
 }

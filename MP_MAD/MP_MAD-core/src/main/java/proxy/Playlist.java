@@ -37,8 +37,8 @@ public class Playlist implements IPlaylist{
     }
 
     @Override
-    public List<Track> getTracks() {
-        return tracks;
+    public ArrayList<Track> getTracks() {
+        return (ArrayList<Track>) tracks;
     }
 
     @Override

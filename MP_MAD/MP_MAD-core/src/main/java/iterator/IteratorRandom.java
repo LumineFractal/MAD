@@ -43,9 +43,9 @@ public class IteratorRandom implements Iterator<Track> {
 
     @Override
     public Track next() {
-        System.out.println(wasPlayed.toString());
+        // System.out.println(wasPlayed.toString());
         createList();
-        System.out.println(wasPlayed.toString());
+        // System.out.println(wasPlayed.toString());
         y = generator.nextInt(tracks.size());
         while (wasPlayed.get(y)) {
             y = generator.nextInt(tracks.size());
