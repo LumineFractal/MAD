@@ -101,7 +101,7 @@ public class ListController implements Initializable {
     @FXML
     void listTrackActionListener(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getFocusedIndex());
+            facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem());
         }
     }
 

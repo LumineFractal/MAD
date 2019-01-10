@@ -23,11 +23,11 @@ public class Facade {
         return player;
     }
 
-    public void playTrack(int idxPlaylist, int idxTrack) {
-        if (idxPlaylist == -1 && idxTrack == -1) {
+    public void playTrack(int idxPlaylist, Track track) {
+        if (idxPlaylist == -1 && track == null) {
             player.play(player.getActualPlaylist(), player.getTrack());
         } else {
-            player.play(idxPlaylist, playlistManager.getPlaylist(idxPlaylist).getTrack(idxTrack));
+            player.play(idxPlaylist, track);
         }
     }
 
