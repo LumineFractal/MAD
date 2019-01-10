@@ -1,9 +1,10 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import sources.Track;
 
 import java.net.URL;
@@ -36,53 +37,58 @@ public class ListController implements Initializable {
     private TableColumn<Track, Integer> time;
 
     @FXML
-    void handle9(ActionEvent event) {
+    void handle9(DragEvent event) {
         System.out.println("On Drag Detected");
     }
 
     @FXML
-    void handle8(ActionEvent event) {
+    void handle8(DragEvent event) {
         System.out.println("On Drag Done");
     }
 
     @FXML
-    void handle7(ActionEvent event) {
+    void handle7(DragEvent event) {
         System.out.println("On Drag Dropped");
     }
 
     @FXML
-    void handle6(ActionEvent event) {
+    void handle6(DragEvent event) {
         System.out.println("On Drag Entered");
     }
 
     @FXML
-    void handle5(ActionEvent event) {
+    void handle5(DragEvent event) {
         System.out.println("On Drag Exited");
     }
 
     @FXML
-    void handle(ActionEvent event) {
-        System.out.println("On Drag Over");
+    void handle(DragEvent event) {
+        //System.out.println("On Drag Over");
     }
 
     @FXML
-    void handle1(ActionEvent event) {
+    void handle1(DragEvent event) {
         System.out.println("On Mouse Drag Entered");
     }
 
     @FXML
-    void handle2(ActionEvent event) {
+    void handle2(DragEvent event) {
         System.out.println("On Mouse Drag Exited");
     }
 
     @FXML
-    void handle3(ActionEvent event) {
+    void handle3(DragEvent event) {
         System.out.println("On Mouser Drag Over");
     }
 
     @FXML
-    void handle4(ActionEvent event) {
+    void handle4(MouseDragEvent event) {
         System.out.println("On Mouse Drag Released");
+    }
+
+    @FXML
+    void handle10(MouseDragEvent event) {
+        System.out.println("On Released");
     }
 
     @Override
