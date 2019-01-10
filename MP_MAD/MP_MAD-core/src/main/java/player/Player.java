@@ -8,13 +8,11 @@ import sources.Track;
 
 import java.io.File;
 import java.util.Observable;
-import java.util.Observer;
 
-public class Player extends Observable {
+public class Player extends Observable implements Runnable {
 
     private static final Player instance = new Player();
     private MediaPlayer mediaPlayer;
-    Observer observer;
     private Track track = null;
     private double volume;
     private int actualPlaylist = 0;
@@ -90,16 +88,21 @@ public class Player extends Observable {
         return mediaPlayer.getCurrentTime().toMillis();
     }
 
-    public void attach(Observer observer) {
-
-    }
-
-    public void detach(Observer observer){
-
-    }
-
-    public void notifyObserver() {
-
+    @Override
+    public void run() {
+        while(true){
+            try {
+                if(hasEnded()){
+                    setChanged();
+                    notifyObservers();
+                    break;
+                }
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
     }
 
 }

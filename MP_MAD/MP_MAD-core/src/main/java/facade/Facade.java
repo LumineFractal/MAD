@@ -8,6 +8,7 @@ import sources.Track;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import observer.PlayerObserver;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -16,6 +17,8 @@ public class Facade {
     public Facade() {
         player = Player.getInstance();
         playlistManager = PlaylistManager.getInstance();
+        PlayerObserver observer = new PlayerObserver();
+        player.addObserver(observer);
     }
 
     public static PlaylistManager getPlaylistManager() {
@@ -30,11 +33,12 @@ public class Facade {
         if (idxPlaylist == -1 && track == null) {
             if (player.getTrack() != null) {
                 player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);
-            } else if (playlistManager.getPlaylists().size() != 0 && playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().size() != 0) {
+            } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
+            new Thread(player).start();
         }
     }
 
