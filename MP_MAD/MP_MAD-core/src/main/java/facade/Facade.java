@@ -56,69 +56,77 @@ public class Facade {
     }
 
     public void editPlaylist(int idx, List<Track> tracks) {
+        boolean isSameList = true;
 
+        for (int i = 0; i < playlistManager.getPlaylist(idx).getTracks().size(); i++) {
+            if (!tracks.get(i).equals(playlistManager.getPlaylist(idx).getTrack(i))) {
+                isSameList = false;
+                break;
+            }
+        }
+
+
+        if (!isSameList) {
+            playlistManager.getPlaylist(idx).setTracks(tracks);
+        }
     }
 
     public void removetrack(int idx, Track track) {
+        playlistManager.getPlaylist(idx).removeTrack(track);
 
     }
 
     public Iterator<Track> chooseIterator(EnumIterator.iterator iterator, ArrayList<Track> tracks) {
         switch (iterator) {
             case DEFAULT: {
-                System.out.println("jeden");
                 return new IteratorDefault(tracks);
             }
             case REPEATABLE: {
-                System.out.println("jeden");
                 return new IteratorRepeatable(tracks);
             }
             case RANDOM: {
-                System.out.println("jeden");
                 return new IteratorRandom(tracks);
             }
             case RANDOMREPEATABLE: {
-                System.out.println("jeden");
                 return new IteratorRandomRepeatable(tracks);
             }
             default: {
-                System.out.println("default");
                 return new IteratorDefault(tracks);
             }
         }
 
     }
 
-    public void nextTrack(){
-        if(player.getTrack()==null){
-            
-        }else{
+    public void nextTrack() {
+        if (player.getTrack() == null) {
+
+        } else {
             int currentTrackIndex = playlistManager.getPlaylist(player.getActualPlaylist())
                     .getTracks().lastIndexOf(player.getTrack());
-            if(playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().size()-1 == currentTrackIndex){
+            if (playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().size() - 1 == currentTrackIndex) {
                 playTrack(player.getActualPlaylist(), playlistManager
                         .getPlaylist(player.getActualPlaylist()).getTracks().get(0), false);
-            }else{
+            } else {
                 playTrack(player.getActualPlaylist(), playlistManager
-                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex+1), false);
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex + 1), false);
             }
         }
-        
+
     }
 
-    public void previousTrack(){
-        if(player.getTrack()==null){
-            
-        }else{
+    public void previousTrack() {
+        if (player.getTrack() == null) {
+
+        } else {
             int currentTrackIndex = playlistManager.getPlaylist(player.getActualPlaylist())
                     .getTracks().lastIndexOf(player.getTrack());
-            if(0 == currentTrackIndex){
+            if (0 == currentTrackIndex) {
                 playTrack(player.getActualPlaylist(), playlistManager
                         .getPlaylist(player.getActualPlaylist()).getTracks().get(playlistManager.getPlaylist(player.getActualPlaylist())
-                    .getTracks().size()-1), false);
-            }else{
+                                .getTracks().size() - 1), false);
+            } else {
                 playTrack(player.getActualPlaylist(), playlistManager
-                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex-1), false);
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex - 1), false);
             }
         }
     }

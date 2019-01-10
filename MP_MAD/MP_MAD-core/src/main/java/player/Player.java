@@ -98,7 +98,7 @@ public class Player extends Observable {
 
     }
 
-    public void notifyO() {
+    public void notifyObserver() {
 
     }
 

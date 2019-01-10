@@ -3,8 +3,12 @@ package controller;
 import facade.Facade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -100,9 +104,14 @@ public class ListController implements Initializable {
 
     @FXML
     void listTrackActionListener(MouseEvent event) {
-        if (event.getClickCount() == 2) {
+        if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
             facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem(), false);
         }
+    }
+
+    @FXML
+    void releasedActionListener(MouseEvent event) {
+        facade.editPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getItems());
     }
 
     @Override
@@ -114,5 +123,23 @@ public class ListController implements Initializable {
         genre.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
         time.setCellValueFactory(new PropertyValueFactory<Track, Integer>("length"));
         name.setCellValueFactory(new PropertyValueFactory<Track, String>("title"));
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                facade.removetrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem());
+                trackTable.getItems().remove(trackTable.getSelectionModel().getSelectedItem());
+            }
+        });
+        contextMenu.getItems().add(delete);
+        trackTable.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+                contextMenu.show(trackTable, event.getScreenX(), event.getScreenY());
+            }
+        });
     }
 }

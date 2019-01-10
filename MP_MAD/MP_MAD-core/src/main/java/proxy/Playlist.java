@@ -47,6 +47,11 @@ public class Playlist implements IPlaylist{
     }
 
     @Override
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
+    }
+
+    @Override
     public void addTrack(Track track) {
         tracks.add(track);
     }

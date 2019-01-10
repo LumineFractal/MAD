@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <TableView fx:id="trackTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
            onDragDropped="#handle7" onDragOver="#handle" onMouseClicked="#listTrackActionListener"
-           xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="controller.ListController">
+           onMouseReleased="#releasedActionListener" xmlns="http://javafx.com/javafx/10.0.1"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListController">
    <columns>
       <TableColumn fx:id="nr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="Nr." />
       <TableColumn fx:id="name" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Name" />
