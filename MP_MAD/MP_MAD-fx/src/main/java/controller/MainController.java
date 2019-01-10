@@ -55,19 +55,23 @@ public class MainController implements Initializable {
 
     @FXML
     void playButtonActionListener(ActionEvent event) {
-        if (playlistContainer.getTabs().size() != 0) {
+        if (!playlistContainer.getTabs().isEmpty()) {
             facade.playTrack(-1, null, true);
         }
     }
 
     @FXML
     void previousButtonActionListener(ActionEvent event) {
-
+        if (!playlistContainer.getTabs().isEmpty()) {
+            facade.previousTrack();
+        }
     }
 
     @FXML
     void nextButtonActionListener(ActionEvent event) {
-        
+        if (!playlistContainer.getTabs().isEmpty()) {
+            facade.nextTrack();
+        }
     }
 
     @FXML

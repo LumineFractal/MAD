@@ -64,12 +64,38 @@ public class Facade {
 
     }
 
-    public void nextTrack() {
-
+    public void nextTrack(){
+        if(player.getTrack()==null){
+            
+        }else{
+            int currentTrackIndex = playlistManager.getPlaylist(player.getActualPlaylist())
+                    .getTracks().lastIndexOf(player.getTrack());
+            if(playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().size()-1 == currentTrackIndex){
+                playTrack(player.getActualPlaylist(), playlistManager
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(0), false);
+            }else{
+                playTrack(player.getActualPlaylist(), playlistManager
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex+1), false);
+            }
+        }
+        
     }
 
-    public void previousTrack() {
-
+    public void previousTrack(){
+        if(player.getTrack()==null){
+            
+        }else{
+            int currentTrackIndex = playlistManager.getPlaylist(player.getActualPlaylist())
+                    .getTracks().lastIndexOf(player.getTrack());
+            if(0 == currentTrackIndex){
+                playTrack(player.getActualPlaylist(), playlistManager
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(playlistManager.getPlaylist(player.getActualPlaylist())
+                    .getTracks().size()-1), false);
+            }else{
+                playTrack(player.getActualPlaylist(), playlistManager
+                        .getPlaylist(player.getActualPlaylist()).getTracks().get(currentTrackIndex-1), false);
+            }
+        }
     }
 
     public String namePlaylistUnique(String name) {
