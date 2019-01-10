@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragDetected="#handle9"
-           onDragDone="#handle8" onDragDropped="#handle7" onDragEntered="#handle6" onDragExited="#handle5"
-           onDragOver="#handle" onMouseDragEntered="#handle1" onMouseDragExited="#handle2" onMouseDragOver="#handle3"
-           onMouseDragReleased="#handle4" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" 
+           onDragDropped="#handle7" onDragOver="#handle" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.ListController">
    <columns>
       <TableColumn fx:id="nr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="Nr." />
