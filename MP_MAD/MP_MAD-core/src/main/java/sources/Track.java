@@ -25,10 +25,23 @@ public class Track {
     private String trackNumber;
     private int length;
     private String path;
-    
-    
-    public Track(File file) throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException {
-        AudioFile f = AudioFileIO.read(file);
+
+
+    public Track(File file) {
+        AudioFile f = null;
+        try {
+            f = AudioFileIO.read(file);
+        } catch (CannotReadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TagException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyFileException e) {
+            e.printStackTrace();
+        } catch (InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
         Tag tag = f.getTag();
         this.artist = tag.getFirst(FieldKey.ARTIST);
         this.album = tag.getFirst(FieldKey.ALBUM);

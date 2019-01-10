@@ -1,20 +1,21 @@
 package player;
 
-import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 import sources.Track;
 
+import java.io.File;
+
 public class Player {
 
     private static final Player instance = new Player();
     private MediaPlayer mediaPlayer;
     //TODO private Observer observer;
-    private Track track;
+    private Track track = null;
     private double volume;
-    private int actualPlaylist;
+    private int actualPlaylist = 0;
 
     private Player() {
         volume = 0.5;
@@ -22,10 +23,13 @@ public class Player {
 
     public void play(int actualPlaylist, Track track) {
 
-        //jezeli podana ta sama sciezka, co wczesniej
         if(this.track == null){
             this.track = track;
-        }else if (this.track.getPath() == track.getPath() && this.actualPlaylist == actualPlaylist) {
+            Media hit = new Media(new File(track.getPath()).toURI().toString());
+            mediaPlayer = new MediaPlayer(hit);
+            mediaPlayer.setVolume(volume);
+            mediaPlayer.play();
+        } else if (this.track.equals(track) && this.actualPlaylist == actualPlaylist) {
             if (!isPlaying()) {
                 mediaPlayer.play();
             } else if (hasEnded()) {
@@ -33,17 +37,13 @@ public class Player {
             } else {
                 mediaPlayer.pause();
             }
-
-        } //jezeli podana inna sciezka
-        else {
-            //jezeli inny utwor jest w trakcie odtwarzania
-            if (mediaPlayer != null) {
-                if (isPlaying()) {
-                    mediaPlayer.stop();
-                }
+        } else {
+            this.track = track;
+            this.actualPlaylist = actualPlaylist;
+            if (isPlaying()) {
+                mediaPlayer.stop();
             }
             Media hit = new Media(new File( track.getPath()).toURI().toString());
-            //Windows  Media hit = new Media(new File(System.getProperty("user.home"), "Desktop" + track.getPath()).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
             if (!(isPlaying())) {

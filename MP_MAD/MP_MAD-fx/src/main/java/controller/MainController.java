@@ -10,16 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.TagException;
 import player.Player;
-import proxy.IPlaylist;
-import proxy.Playlist;
-import sources.Track;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,48 +49,19 @@ public class MainController implements Initializable {
     @FXML
     private MenuItem menuAddList;
 
-    @FXML
-    void playButtonActionListener(ActionEvent event) {
-        String path = "Sonnetica.mp3";
-        Track track = null;
-        try {
-            track = new Track(new File(path));
-        } catch (CannotReadException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TagException e) {
-            e.printStackTrace();
-        } catch (ReadOnlyFileException e) {
-            e.printStackTrace();
-        } catch (InvalidAudioFrameException e) {
-            e.printStackTrace();
-        }
-        facade.playTrack(track);
+    public TabPane getPlaylistContainer() {
+        return playlistContainer;
     }
 
     @FXML
-    void previousButtonActionListener(ActionEvent event) throws CannotReadException, IOException, TagException, ReadOnlyFileException {
-
-        //TODO test tag?w (wywalic pozniej powyzsze wyrzucenia wyjatkow)
-        try {
-            Track track = new Track(new File("Sunglow.mp3"));
-            System.out.println(track.getArtist());
-            System.out.println(track.getTitle());
-            System.out.println(track.getPath());
-            System.out.println(track.getGenre());
-            System.out.println(track.getYear());
-            System.out.println(track.getLength());
-            System.out.println(track.getAlbum());
-
-            IPlaylist playlist = new Playlist();
-            playlist.addTrack(track);
-
-            System.out.println(playlist.getTracks());
-
-        } catch (InvalidAudioFrameException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+    void playButtonActionListener(ActionEvent event) {
+        if (playlistContainer.getTabs().size() != 0) {
+            facade.playTrack(-1, -1);
         }
+    }
+
+    @FXML
+    void previousButtonActionListener(ActionEvent event) {
 
     }
 
@@ -114,8 +77,9 @@ public class MainController implements Initializable {
 
     @FXML
     void addListActionListener(ActionEvent event) {
-        facade.createPlaylist(String.valueOf(playlistContainer.getTabs().size()));
+        facade.createPlaylist(facade.namePlaylistUnique("Playlist" + playlistContainer.getTabs().size()));
         Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
 
         TableView tableTrack = null;
@@ -125,6 +89,11 @@ public class MainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ListController listController = loader.getController();
+
+        listController.setParent(this);
+        listController.setFacade(facade);
+
         tab.setContent(tableTrack);
         playlistContainer.getTabs().add(tab);
     }

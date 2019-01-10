@@ -23,8 +23,12 @@ public class Facade {
         return player;
     }
 
-    public void playTrack(Track track){
-        player.play(1, track);
+    public void playTrack(int idxPlaylist, int idxTrack) {
+        if (idxPlaylist == -1 && idxTrack == -1) {
+            player.play(player.getActualPlaylist(), player.getTrack());
+        } else {
+            player.play(idxPlaylist, playlistManager.getPlaylist(idxPlaylist).getTrack(idxTrack));
+        }
     }
 
     public void setVolume(double volume){
@@ -62,6 +66,17 @@ public class Facade {
 
     public void previousTrack(){
 
+    }
+
+    public String namePlaylistUnique(String name) {
+        for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
+            if (playlistManager.getPlaylists().get(i).getName().equals(name)) {
+                name = name.concat(String.valueOf(i));
+                i = 0;
+            }
+        }
+
+        return name;
     }
 
 }

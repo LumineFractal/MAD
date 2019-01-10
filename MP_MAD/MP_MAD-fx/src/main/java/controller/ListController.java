@@ -8,26 +8,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.TagException;
+import javafx.scene.input.*;
 import sources.Track;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ListController implements Initializable {
+
+    private MainController parent;
 
     private Facade facade;
 
@@ -58,6 +50,22 @@ public class ListController implements Initializable {
     @FXML
     private TableView<Track> trackTable;
 
+    public MainController getParent() {
+        return parent;
+    }
+
+    public Facade getFacade() {
+        return facade;
+    }
+
+    public void setFacade(Facade facade) {
+        this.facade = facade;
+    }
+
+    public void setParent(MainController parent) {
+        this.parent = parent;
+    }
+
     @FXML
     void handle7(DragEvent event) {
         //System.out.println("On Drag Dropped");
@@ -66,21 +74,17 @@ public class ListController implements Initializable {
 
         boolean success = false;
         if (files != null) {
-            File file = files.get(0);
-            try {
+            for (int i = 0; i < files.size(); i++) {
+                File file = files.get(i);
                 Track track = new Track(file);
-                facade.addTrack(0, track);
+                facade.addTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), track);
                 ObservableList<Track> tracks = FXCollections.observableArrayList();
-                tracks.addAll(Facade.getPlaylistManager().getPlaylist(0).getTracks());
+                tracks.addAll(Facade.getPlaylistManager().getPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex()).getTracks());
 
                 trackTable.setItems(tracks);
                 success = true;
-            } catch (ReadOnlyFileException | InvalidAudioFrameException | CannotReadException | IOException | TagException ex) {
-                Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
-
         event.setDropCompleted(success);
 
         event.consume();
@@ -94,9 +98,15 @@ public class ListController implements Initializable {
         event.consume();
     }
 
+    @FXML
+    void listTrackActionListener(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getFocusedIndex());
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        facade = new Facade();
         trackNumber.setCellValueFactory(new PropertyValueFactory<Track, String>("trackNumber"));
         artist.setCellValueFactory(new PropertyValueFactory<Track, String>("artist"));
         album.setCellValueFactory(new PropertyValueFactory<Track, String>("album"));
