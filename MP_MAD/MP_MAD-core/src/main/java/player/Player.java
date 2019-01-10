@@ -25,6 +25,7 @@ public class Player {
 
         if(this.track == null){
             this.track = track;
+            this.actualPlaylist = actualPlaylist;
             Media hit = new Media(new File(track.getPath()).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
