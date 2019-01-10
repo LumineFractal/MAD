@@ -40,8 +40,8 @@ public class Facade {
 
     }
 
-    public void addtrack(int idx, Track track){
-
+    public void addTrack(int idx, Track track) {
+        playlistManager.getPlaylist(idx).addTrack(track);
     }
 
     public void editPlaylist(int idx, List<Track> tracks){

@@ -1,8 +1,10 @@
 package proxy;
 
+import sources.Track;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import sources.Track;
 
 /**
  *
@@ -12,7 +14,14 @@ public class Playlist implements IPlaylist{
     private String name;
     private List<Track> tracks;
     private List<CopyPlaylist> proxyPlaylists;
-    
+
+    public Playlist() {
+        //TODO
+        this.name = "Playlista X";
+        this.tracks = new ArrayList<>();
+        this.proxyPlaylists = new ArrayList<>();
+    }
+
     protected void disconnect(){
         //TODO
     }

@@ -15,7 +15,8 @@ import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import player.Player;
-import sources.Playlist;
+import proxy.IPlaylist;
+import proxy.Playlist;
 import sources.Track;
 
 import java.io.File;
@@ -90,7 +91,7 @@ public class MainController implements Initializable {
             System.out.println(track.getLength());
             System.out.println(track.getAlbum());
 
-            Playlist playlist = new Playlist();
+            IPlaylist playlist = new Playlist();
             playlist.addTrack(track);
 
             System.out.println(playlist.getTracks());
@@ -114,7 +115,7 @@ public class MainController implements Initializable {
     @FXML
     void addListActionListener(ActionEvent event) {
         facade.createPlaylist(String.valueOf(playlistContainer.getTabs().size()));
-        Tab tab = new Tab(facade.getPlaylistManager().getPlaylist(facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+        Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
 
         TableView tableTrack = null;
