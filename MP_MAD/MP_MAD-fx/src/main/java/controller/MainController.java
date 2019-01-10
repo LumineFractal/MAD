@@ -5,6 +5,7 @@ import javafx.beans.Observable;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -114,6 +115,16 @@ public class MainController implements Initializable {
     void addListActionListener(ActionEvent event) {
         facade.createPlaylist(String.valueOf(playlistContainer.getTabs().size()));
         Tab tab = new Tab(facade.getPlaylistManager().getPlaylist(facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
+
+        TableView tableTrack = null;
+
+        try {
+            tableTrack = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tab.setContent(tableTrack);
         playlistContainer.getTabs().add(tab);
     }
 
