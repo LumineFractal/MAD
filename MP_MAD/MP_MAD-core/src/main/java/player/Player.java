@@ -7,12 +7,14 @@ import javafx.util.Duration;
 import sources.Track;
 
 import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Player {
+public class Player extends Observable {
 
     private static final Player instance = new Player();
     private MediaPlayer mediaPlayer;
-    //TODO private Observer observer;
+    Observer observer;
     private Track track = null;
     private double volume;
     private int actualPlaylist = 0;
@@ -88,8 +90,7 @@ public class Player {
         return mediaPlayer.getCurrentTime().toMillis();
     }
 
-    //TODO observer
-    /*public void attach(Observer observer){
+    public void attach(Observer observer) {
 
     }
 
@@ -97,8 +98,8 @@ public class Player {
 
     }
 
-    public void notify(){
+    public void notifyO() {
 
-    }*/
+    }
 
 }
