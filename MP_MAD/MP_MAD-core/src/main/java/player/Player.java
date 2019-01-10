@@ -21,7 +21,7 @@ public class Player {
         volume = 0.5;
     }
 
-    public void play(int actualPlaylist, Track track) {
+    public void play(int actualPlaylist, Track track, boolean buttonAndDoubleClick) {
 
         if(this.track == null){
             this.track = track;
@@ -30,7 +30,7 @@ public class Player {
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
             mediaPlayer.play();
-        } else if (this.track.equals(track) && this.actualPlaylist == actualPlaylist) {
+        } else if (this.track.equals(track) && this.actualPlaylist == actualPlaylist && buttonAndDoubleClick) {
             if (!isPlaying()) {
                 mediaPlayer.play();
             } else if (hasEnded()) {

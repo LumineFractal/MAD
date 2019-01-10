@@ -18,7 +18,7 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image("file:Icon_MP_MAD.png"));
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(400);
+        primaryStage.setMinWidth(450);
         primaryStage.show();
     }
 

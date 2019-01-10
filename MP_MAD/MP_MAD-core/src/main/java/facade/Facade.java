@@ -23,15 +23,15 @@ public class Facade {
         return player;
     }
 
-    public void playTrack(int idxPlaylist, Track track) {
+    public void playTrack(int idxPlaylist, Track track, boolean buttonAndDoubleClick) {
         if (idxPlaylist == -1 && track == null) {
             if (player.getTrack() != null) {
-                player.play(player.getActualPlaylist(), player.getTrack());
+                player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);
             } else if (playlistManager.getPlaylists().size() != 0 && playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().size() != 0) {
-                player.play(0, playlistManager.getPlaylist(0).getTrack(0));
+                player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
         } else {
-            player.play(idxPlaylist, track);
+            player.play(idxPlaylist, track, buttonAndDoubleClick);
         }
     }
 

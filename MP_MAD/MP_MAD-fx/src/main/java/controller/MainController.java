@@ -56,7 +56,7 @@ public class MainController implements Initializable {
     @FXML
     void playButtonActionListener(ActionEvent event) {
         if (playlistContainer.getTabs().size() != 0) {
-            facade.playTrack(-1, null);
+            facade.playTrack(-1, null, true);
         }
     }
 
