@@ -52,7 +52,12 @@ public class Facade {
     }
 
     public void removePlaylist(String name) {
-
+        for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
+            if (name == playlistManager.getPlaylist(i).getName()) {
+                playlistManager.removePlaylist(i);
+                break;
+            }
+        }
     }
 
     public void addTrack(int idx, Track track) {
