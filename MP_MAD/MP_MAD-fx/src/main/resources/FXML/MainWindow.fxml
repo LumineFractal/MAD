@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="450.0"
-          xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="controller.MainController">
+          styleClass="root" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/10.0.1"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
         <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
@@ -19,7 +19,8 @@
         <RowConstraints minHeight="480.0" prefHeight="480.0" vgrow="SOMETIMES"/>
     </rowConstraints>
    <children>
-      <MenuBar maxWidth="1.7976931348623157E308" minWidth="-Infinity">
+       <MenuBar maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" styleClass="menu-item"
+                stylesheets="@../css/style.css">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -69,16 +70,28 @@
                 <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="playButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#playButtonActionListener" prefWidth="62.0" text="Button" GridPane.columnIndex="3" />
-                  <Button fx:id="previousButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#previousButtonActionListener" text="Button" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                   <Button fx:id="playButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                           minWidth="-Infinity" mnemonicParsing="false" onAction="#playButtonActionListener"
+                           prefHeight="60.0" prefWidth="60.0" styleClass="playButton" GridPane.columnIndex="3"/>
+                   <Button fx:id="previousButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                           onAction="#previousButtonActionListener" styleClass="previousButton" GridPane.columnIndex="2"
+                           GridPane.halignment="RIGHT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                       <GridPane.margin>
+                           <Insets right="5.0"/>
+                       </GridPane.margin>
                   </Button>
-                  <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#nextButtonActionListener" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                   <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                           onAction="#nextButtonActionListener" styleClass="nextButton" GridPane.columnIndex="4"
+                           GridPane.halignment="LEFT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                       <GridPane.margin>
+                           <Insets left="5.0"/>
+                       </GridPane.margin>
                   </Button>
                   <Slider fx:id="volume" GridPane.columnIndex="6">
                      <cursor>
@@ -88,9 +101,9 @@
                           <Insets left="5.0"/>
                       </GridPane.margin>
                   </Slider>
-                   <ToggleButton fx:id="loopmodeButton" mnemonicParsing="false" onAction="#playmodeButtonActionListener"
+                   <ToggleButton fx:id="playmodeButton" mnemonicParsing="false" onAction="#playmodeButtonActionListener"
                                  text="ToggleButton" GridPane.columnIndex="1"/>
-                   <ToggleButton fx:id="playmodeButton" mnemonicParsing="false" onAction="#loopmodeButtonActionListener"
+                   <ToggleButton fx:id="loopmodeButton" mnemonicParsing="false" onAction="#loopmodeButtonActionListener"
                                  text="ToggleButton" GridPane.columnIndex="5"/>
                </children>
             </GridPane>

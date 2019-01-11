@@ -1,0 +1,62 @@
+.playButton {
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-width: 60px;
+    -fx-max-height: 60px;
+    -fx-border-radius: 5em;
+    -fx-border-color: #4d4d4d;
+    -fx-border-style: soild;
+    -fx-border-width: 2;
+
+}
+
+.button{
+    -fx-background-radius: 5em;
+    -fx-background-color: #1a1a1a;
+}
+.button:hover {
+    -fx-background-color: #4d4d4d;
+}
+
+.toggle-button{
+    -fx-background-radius: 5em;
+        -fx-background-color: #1a1a1a;
+}
+
+.toggle-button:selected{
+    -fx-background-color: #4d4d4d;
+}
+
+.nextButton{
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+.previousButton{
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+}
+
+.TableView {
+    -fx-background-color: gray;
+}
+
+.root {
+    -fx-background-color: #1a1a1a;
+}
+
+.menu-bar{
+    -fx-background-color: #333333;
+}
+
+.menu-item .label{
+    -fx-text-fill: #a6a6a6;
+}
+
+.menu:hover{
+    -fx-background-color: #666666;
+}

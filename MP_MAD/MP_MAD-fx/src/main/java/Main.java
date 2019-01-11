@@ -10,12 +10,11 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/FXML/MainWindow.fxml"));
-
         GridPane mainWindow = loader.load();
         Scene scene = new Scene(mainWindow);
-
+        scene.getStylesheets().add("css/style.css");
         primaryStage.setTitle("Music player MAD");
-        primaryStage.getIcons().add(new Image("file:Icon_MP_MAD.png"));
+        primaryStage.getIcons().add(new Image("file:image/Icon_MP_MAD.png"));
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(450);
