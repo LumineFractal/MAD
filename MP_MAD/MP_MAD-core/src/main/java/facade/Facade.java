@@ -156,7 +156,7 @@ public class Facade {
                 nameFix = name;
                 nameFix = nameFix.concat(String.valueOf(numberFix));
                 numberFix++;
-                i = 0;
+                i = -1;
             }
         }
 
