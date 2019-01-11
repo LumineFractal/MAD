@@ -180,14 +180,16 @@ public class MainController implements Initializable {
         playlistContainer.getTabs().add(tab);
     }
 
-    @FXML
+   @FXML
     void redoActionListener(ActionEvent event) {
-
+        //TODO
+        facade.redo();
     }
 
     @FXML
     void undoActionListener(ActionEvent event) {
-
+        //TODO
+        facade.undo();
     }
 
     @Override

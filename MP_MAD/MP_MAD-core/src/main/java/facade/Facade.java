@@ -1,6 +1,7 @@
 package facade;
 
 import command.CommandAddTrack;
+import command.CommandCreatePlaylist;
 import command.CommandEditPlaylist;
 import command.CommandRemovePlaylist;
 import command.CommandRemoveTrack;
@@ -53,13 +54,14 @@ public class Facade {
     }
 
     public void createPlaylist(String name) {
+        playlistManager.addUndo(new CommandCreatePlaylist(name));
         playlistManager.createPlaylist(name);
     }
 
     public void removePlaylist(String name) {
         for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
             if (name == playlistManager.getPlaylist(i).getName()) {
-                playlistManager.addUndo(new CommandRemovePlaylist(playlistManager.getPlaylist(i)));
+                playlistManager.addUndo(new CommandRemovePlaylist(playlistManager.getPlaylist(i), i));
                 playlistManager.removePlaylist(i);
                 break;
             }
@@ -67,7 +69,7 @@ public class Facade {
     }
 
     public void addTrack(int idx, Track track) {
-        playlistManager.addUndo(new CommandAddTrack(playlistManager.getPlaylist(idx)));
+        playlistManager.addUndo(new CommandAddTrack(playlistManager.getPlaylist(idx), track));
         playlistManager.getPlaylist(idx).addTrack(track);
     }
 
@@ -83,13 +85,13 @@ public class Facade {
 
 
         if (!isSameList) {
-            playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx)));
+            playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx), "wez to zmien"));
             playlistManager.getPlaylist(idx).setTracks(tracks);
         }
     }
 
     public void removetrack(int idx, Track track) {
-        playlistManager.addUndo(new CommandRemoveTrack(playlistManager.getPlaylist(idx)));
+        playlistManager.addUndo(new CommandRemoveTrack(playlistManager.getPlaylist(idx), track));
         playlistManager.getPlaylist(idx).removeTrack(track);
 
     }
@@ -203,11 +205,15 @@ public class Facade {
     }
 
     public void undo() {
-
+        if(playlistManager.isUndoAvailable()){
+            playlistManager.undo();
+        }
     }
 
     public void redo() {
-
+        if(playlistManager.isRedoAvailable()){
+            playlistManager.redo();
+        }
     }
 
 }

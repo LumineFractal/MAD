@@ -94,18 +94,15 @@ public class PlaylistManager implements Command {
     }
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public void undo() {
-
+        undoList.peek().undo();
+        redoList.push(undoList.pop());
     }
 
     @Override
     public void redo() {
-
+        redoList.peek().redo();
+        undoList.push(redoList.pop());
     }
 
     public boolean isUndoAvailable() {
