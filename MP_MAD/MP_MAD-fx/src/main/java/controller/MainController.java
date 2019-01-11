@@ -85,8 +85,19 @@ public class MainController implements Initializable {
 
     @FXML
     void addListActionListener(ActionEvent event) {
-        facade.createPlaylist(facade.namePlaylistUnique("Playlist" + playlistContainer.getTabs().size()));
+        facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
         Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                facade.removePlaylist(tab.getText());
+                playlistContainer.getTabs().remove(tab);
+            }
+        });
+        contextMenu.getItems().add(delete);
+        tab.setContextMenu(contextMenu);
         playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
