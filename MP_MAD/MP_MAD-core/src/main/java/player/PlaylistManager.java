@@ -28,6 +28,15 @@ public class PlaylistManager implements Command {
         playlists.add(playlist);
     }
 
+    public void addUndo(Command command) {
+        undoList.push(command);
+        redoList.clear();
+    }
+
+    public void addRedo(Command command) {
+        redoList.push(command);
+    }
+
     public void removePlaylist(int index) {
         playlists.remove(index);
     }

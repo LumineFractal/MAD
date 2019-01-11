@@ -33,6 +33,12 @@ public class MainController implements Initializable {
     private Slider volume;
 
     @FXML
+    private MenuItem undoButton;
+
+    @FXML
+    private MenuItem redoButton;
+
+    @FXML
     private ToggleButton loopmodeButton;
 
     @FXML
@@ -85,6 +91,7 @@ public class MainController implements Initializable {
 
     @FXML
     void addListActionListener(ActionEvent event) {
+        undoButton.setDisable(false);
         facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
         Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
         ContextMenu contextMenu = new ContextMenu();
@@ -145,6 +152,16 @@ public class MainController implements Initializable {
 
         tab.setContent(tableTrack);
         playlistContainer.getTabs().add(tab);
+    }
+
+    @FXML
+    void redoActionListener(ActionEvent event) {
+
+    }
+
+    @FXML
+    void undoActionListener(ActionEvent event) {
+
     }
 
     @Override

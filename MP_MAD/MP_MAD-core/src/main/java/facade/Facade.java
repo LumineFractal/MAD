@@ -1,5 +1,9 @@
 package facade;
 
+import command.CommandAddTrack;
+import command.CommandEditPlaylist;
+import command.CommandRemovePlaylist;
+import command.CommandRemoveTrack;
 import iterator.*;
 import observer.PlayerObserver;
 import player.Player;
@@ -54,6 +58,7 @@ public class Facade {
     public void removePlaylist(String name) {
         for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
             if (name == playlistManager.getPlaylist(i).getName()) {
+                playlistManager.addUndo(new CommandRemovePlaylist(playlistManager.getPlaylist(i)));
                 playlistManager.removePlaylist(i);
                 break;
             }
@@ -61,6 +66,7 @@ public class Facade {
     }
 
     public void addTrack(int idx, Track track) {
+        playlistManager.addUndo(new CommandAddTrack(playlistManager.getPlaylist(idx)));
         playlistManager.getPlaylist(idx).addTrack(track);
     }
 
@@ -76,11 +82,13 @@ public class Facade {
 
 
         if (!isSameList) {
+            playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx)));
             playlistManager.getPlaylist(idx).setTracks(tracks);
         }
     }
 
     public void removetrack(int idx, Track track) {
+        playlistManager.addUndo(new CommandRemoveTrack(playlistManager.getPlaylist(idx)));
         playlistManager.getPlaylist(idx).removeTrack(track);
 
     }
@@ -153,6 +161,14 @@ public class Facade {
         }
 
         return nameFix;
+    }
+
+    public void undo() {
+
+    }
+
+    public void redo() {
+
     }
 
 }

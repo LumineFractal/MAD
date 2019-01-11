@@ -29,7 +29,10 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem fx:id="undoButton" disable="true" mnemonicParsing="false" onAction="#undoActionListener"
+                          text="Undo"/>
+                <MenuItem fx:id="redoButton" disable="true" mnemonicParsing="false" onAction="#redoActionListener"
+                          text="Redo"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
