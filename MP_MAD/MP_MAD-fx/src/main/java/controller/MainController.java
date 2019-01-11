@@ -94,7 +94,7 @@ public class MainController implements Initializable {
 
     @FXML
     void playmodeButtonActionListener(ActionEvent event) {
-        if (playmodeButton.isSelected())
+        if (!playmodeButton.isSelected())
             facade.getPlaylistManager().setNameIterator(true, true);
         else
             facade.getPlaylistManager().setNameIterator(false, true);
@@ -106,7 +106,7 @@ public class MainController implements Initializable {
 
     @FXML
     void loopmodeButtonActionListener(ActionEvent event) {
-        if (loopmodeButton.isSelected())
+        if (!loopmodeButton.isSelected())
             facade.getPlaylistManager().setNameIterator(true, false);
         else
             facade.getPlaylistManager().setNameIterator(false, false);

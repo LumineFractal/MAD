@@ -68,17 +68,17 @@ public class PlaylistManager implements Command {
             }
             case REPEATABLE: {
                 if (RandomOrRepeatable) {
-                    if (isActive)
+                    if (!isActive)
                         nameIterator = EnumIterator.iterator.RANDOMREPEATABLE;
-                } else if (!isActive)
+                } else if (isActive)
                     nameIterator = EnumIterator.iterator.DEFAULT;
                 break;
             }
             case RANDOM: {
                 if (RandomOrRepeatable) {
-                    if (!isActive)
+                    if (isActive)
                         nameIterator = EnumIterator.iterator.DEFAULT;
-                } else if (isActive)
+                } else if (!isActive)
                     nameIterator = EnumIterator.iterator.RANDOMREPEATABLE;
                 break;
             }
