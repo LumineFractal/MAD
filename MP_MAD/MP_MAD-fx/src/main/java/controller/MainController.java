@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 
 public class MainController implements Initializable {
 
@@ -59,6 +60,13 @@ public class MainController implements Initializable {
     @FXML
     private MenuItem menuAddList;
 
+    @FXML
+    private Label currentTime;
+    
+    @FXML
+    private Label totalLength;
+
+    
     public TabPane getPlaylistContainer() {
         return playlistContainer;
     }
@@ -185,16 +193,29 @@ public class MainController implements Initializable {
                 Player player = Player.getInstance();
                 while (true) {
                     if ((player.getMediaPlayer() != null)) {
+                        Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    totalLength.setText(facade.timeConverter(player.getTrack().getLength().toMillis()));
+                                }
+                            }); 
                         //chyba isTrackAssigned bedzie mozna wywalic
                         if (progressBar.isValueChanging() == false && player.isPlaying() && player.getTrack() != null) {
-                            double c2 = player.getMediaPlayer().getCurrentTime().toMillis();
-                            double s2 = (c2 / player.getMediaPlayer().getStopTime().toMillis() * 100);
-                            progressBar.setValue(s2);
+                            double timeMilis = player.getMediaPlayer().getCurrentTime().toMillis();
+                            double timePercent = (timeMilis / player.getMediaPlayer().getStopTime().toMillis() * 100);
+                            progressBar.setValue(timePercent);
+
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    currentTime.setText(facade.timeConverter(timeMilis));
+                                }
+                            }); 
                         }
                     }
                     //jak ani razu nie uruchomimy piosenki
                     try {
-                        Thread.sleep(400);
+                        Thread.sleep(250);
                     } catch (InterruptedException e) {
                         System.out.println("refreshSeek error");
                     }

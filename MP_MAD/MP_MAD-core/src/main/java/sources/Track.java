@@ -11,6 +11,7 @@ import org.jaudiotagger.tag.TagException;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.util.Duration;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Track {
     private String year;
     private String genre;
     private String trackNumber;
-    private int length;
+    private Duration length;
     private String path;
 
 
@@ -49,7 +50,7 @@ public class Track {
         this.year = tag.getFirst(FieldKey.YEAR);
         this.genre = tag.getFirst(FieldKey.GENRE);
         this.trackNumber = tag.getFirst(FieldKey.TRACK);
-        this.length = f.getAudioHeader().getTrackLength();
+        this.length = Duration.seconds(f.getAudioHeader().getTrackLength());
         this.path = file.getAbsolutePath();
     }
 
@@ -77,7 +78,7 @@ public class Track {
         return trackNumber;
     }
 
-    public int getLength() {
+    public Duration getLength() {
         return length;
     }
 

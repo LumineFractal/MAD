@@ -13,6 +13,7 @@ import sources.Track;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javafx.util.Duration;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -161,6 +162,45 @@ public class Facade {
         }
 
         return nameFix;
+    }
+    
+    public String timeConverter(double timeMilis){
+        Duration duration = new Duration(timeMilis);
+        StringBuilder sb = new StringBuilder();
+        int timeSeconds = (int) timeMilis/1000;
+        if(timeSeconds>3600){
+            timeSeconds-=(int)duration.toHours()*3600;
+            sb.append((int)duration.toHours());
+            duration = new Duration(timeSeconds*1000);
+            sb.append(":");
+        }
+        if(timeSeconds>599){
+            timeSeconds-=(int)duration.toMinutes()*60;
+            sb.append((int)duration.toMinutes());
+            duration = new Duration(timeSeconds*1000);
+            sb.append(":");
+        }else if(timeSeconds>59){
+            timeSeconds-=(int)duration.toMinutes()*60;
+            sb.append("0");
+            sb.append((int)duration.toMinutes());
+            duration = new Duration(timeSeconds*1000);
+            sb.append(":");
+        }
+        else if(timeMilis>3599999){
+            duration = new Duration(timeSeconds*1000);
+            sb.append("00:");
+        }
+        else{
+            duration = new Duration(timeSeconds*1000);
+            sb.append("0:");
+        }
+        if(timeSeconds<10){
+            sb.append("0");
+        }
+        sb.append((int)duration.toSeconds());
+        
+        System.out.println(sb);
+        return sb.toString();
     }
 
     public void undo() {
