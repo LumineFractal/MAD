@@ -4,10 +4,14 @@ import facade.Facade;
 import javafx.beans.Observable;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import player.Player;
@@ -83,7 +87,37 @@ public class MainController implements Initializable {
     void addListActionListener(ActionEvent event) {
         facade.createPlaylist(facade.namePlaylistUnique("Playlist" + playlistContainer.getTabs().size()));
         Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
-
+        playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                    TextField name = new TextField();
+                    name.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent event1) {
+                            if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
+                                String nameCorrect = facade.namePlaylistUnique(name.getText());
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
+                                facade.getPlaylistManager().getPlaylist(playlistContainer.getSelectionModel().getSelectedIndex()).setName(nameCorrect);
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                            } else if (event1.getCode() == KeyCode.ENTER) {
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(facade.getPlaylistManager().getPlaylist(playlistContainer.getSelectionModel().getSelectedIndex()).getName());
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                            }
+                        }
+                    });
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText("");
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(name);
+                } else {
+                    for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
+                        if (playlistContainer.getTabs().get(i).getGraphic() != null) {
+                            playlistContainer.getTabs().get(i).setGraphic(null);
+                            playlistContainer.getTabs().get(i).setText(facade.getPlaylistManager().getPlaylist(i).getName());
+                        }
+                    }
+                }
+            }
+        });
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
 
         TableView tableTrack = null;

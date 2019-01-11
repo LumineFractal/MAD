@@ -111,7 +111,7 @@ public class ListController implements Initializable {
 
     @FXML
     void releasedActionListener(MouseEvent event) {
-        facade.editPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getItems());
+        facade.editPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), new ArrayList<>(trackTable.getItems()));
     }
 
     @Override
@@ -123,11 +123,10 @@ public class ListController implements Initializable {
         genre.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
         time.setCellValueFactory(new PropertyValueFactory<Track, Integer>("length"));
         name.setCellValueFactory(new PropertyValueFactory<Track, String>("title"));
-        ContextMenu contextMenu = new ContextMenu();
 
+        ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
                 facade.removetrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem());
