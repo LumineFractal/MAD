@@ -1,6 +1,7 @@
 package player;
 
 import command.Command;
+import iterator.EnumIterator;
 import proxy.IPlaylist;
 import proxy.Playlist;
 
@@ -13,8 +14,10 @@ public class PlaylistManager implements Command {
     private Stack<Command> undoList = new Stack<>();
     private Stack<Command> redoList = new Stack<>();
     private List<IPlaylist> playlists;
+    private EnumIterator.iterator nameIterator = EnumIterator.iterator.DEFAULT;
 
-    private PlaylistManager(){
+
+    private PlaylistManager() {
         playlists = new ArrayList<>();
     }
 
@@ -47,6 +50,47 @@ public class PlaylistManager implements Command {
 
     public List<IPlaylist> getPlaylists() {
         return playlists;
+    }
+
+    public EnumIterator.iterator getNameIterator() {
+        return nameIterator;
+    }
+
+    public void setNameIterator(boolean isActive, boolean RandomOrRepeatable) {
+        switch (nameIterator) {
+            case DEFAULT: {
+                if (RandomOrRepeatable) {
+                    if (!isActive)
+                        nameIterator = EnumIterator.iterator.RANDOM;
+                } else if (!isActive)
+                    nameIterator = EnumIterator.iterator.REPEATABLE;
+                break;
+            }
+            case REPEATABLE: {
+                if (RandomOrRepeatable) {
+                    if (isActive)
+                        nameIterator = EnumIterator.iterator.RANDOMREPEATABLE;
+                } else if (!isActive)
+                    nameIterator = EnumIterator.iterator.DEFAULT;
+                break;
+            }
+            case RANDOM: {
+                if (RandomOrRepeatable) {
+                    if (!isActive)
+                        nameIterator = EnumIterator.iterator.DEFAULT;
+                } else if (isActive)
+                    nameIterator = EnumIterator.iterator.RANDOMREPEATABLE;
+                break;
+            }
+            case RANDOMREPEATABLE: {
+                if (RandomOrRepeatable) {
+                    if (isActive)
+                        nameIterator = EnumIterator.iterator.REPEATABLE;
+                } else if (isActive)
+                    nameIterator = EnumIterator.iterator.RANDOM;
+                break;
+            }
+        }
     }
 
     @Override

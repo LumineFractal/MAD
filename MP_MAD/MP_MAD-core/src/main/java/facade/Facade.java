@@ -5,6 +5,7 @@ import command.CommandEditPlaylist;
 import command.CommandRemovePlaylist;
 import command.CommandRemoveTrack;
 import iterator.*;
+import javafx.util.Duration;
 import observer.PlayerObserver;
 import player.Player;
 import player.PlaylistManager;
@@ -13,7 +14,6 @@ import sources.Track;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javafx.util.Duration;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -134,7 +134,6 @@ public class Facade {
 
     public void previousTrack() {
         if (player.getTrack() == null) {
-
         } else {
             int currentTrackIndex = playlistManager.getPlaylist(player.getActualPlaylist())
                     .getTracks().lastIndexOf(player.getTrack());

@@ -88,8 +88,10 @@
                           <Insets left="5.0"/>
                       </GridPane.margin>
                   </Slider>
-                  <ToggleButton fx:id="playmodeButton" mnemonicParsing="false" onAction="#playmodeButtonActionListener" text="ToggleButton" GridPane.columnIndex="1" />
-                  <ToggleButton fx:id="loopmodeButton" mnemonicParsing="false" text="ToggleButton" GridPane.columnIndex="5" />
+                   <ToggleButton fx:id="loopmodeButton" mnemonicParsing="false" onAction="#playmodeButtonActionListener"
+                                 text="ToggleButton" GridPane.columnIndex="1"/>
+                   <ToggleButton fx:id="playmodeButton" mnemonicParsing="false" onAction="#loopmodeButtonActionListener"
+                                 text="ToggleButton" GridPane.columnIndex="5"/>
                </children>
             </GridPane>
          </children>

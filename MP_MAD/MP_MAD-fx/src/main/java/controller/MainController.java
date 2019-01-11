@@ -1,6 +1,7 @@
 package controller;
 
 import facade.Facade;
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -21,7 +22,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 
 public class MainController implements Initializable {
 
@@ -94,6 +94,24 @@ public class MainController implements Initializable {
 
     @FXML
     void playmodeButtonActionListener(ActionEvent event) {
+        if (playmodeButton.isSelected())
+            facade.getPlaylistManager().setNameIterator(true, true);
+        else
+            facade.getPlaylistManager().setNameIterator(false, true);
+
+        System.out.println(facade.getPlaylistManager().getNameIterator());
+
+
+    }
+
+    @FXML
+    void loopmodeButtonActionListener(ActionEvent event) {
+        if (loopmodeButton.isSelected())
+            facade.getPlaylistManager().setNameIterator(true, false);
+        else
+            facade.getPlaylistManager().setNameIterator(false, false);
+
+        System.out.println(facade.getPlaylistManager().getNameIterator());
 
     }
 
