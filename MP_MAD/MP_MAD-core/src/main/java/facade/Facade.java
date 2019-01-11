@@ -1,6 +1,7 @@
 package facade;
 
 import iterator.*;
+import observer.PlayerObserver;
 import player.Player;
 import player.PlaylistManager;
 import sources.Track;
@@ -8,7 +9,6 @@ import sources.Track;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import observer.PlayerObserver;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -136,14 +136,18 @@ public class Facade {
     }
 
     public String namePlaylistUnique(String name) {
+        int numberFix = 0;
+        String nameFix = name;
         for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
-            if (playlistManager.getPlaylists().get(i).getName().equals(name)) {
-                name = name.concat(String.valueOf(i));
+            if (playlistManager.getPlaylists().get(i).getName().equals(nameFix)) {
+                nameFix = name;
+                nameFix = nameFix.concat(String.valueOf(numberFix));
+                numberFix++;
                 i = 0;
             }
         }
 
-        return name;
+        return nameFix;
     }
 
 }
