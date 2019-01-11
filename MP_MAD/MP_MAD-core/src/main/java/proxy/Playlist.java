@@ -1,5 +1,6 @@
 package proxy;
 
+import iterator.*;
 import sources.Track;
 
 import java.util.ArrayList;
@@ -62,10 +63,25 @@ public class Playlist implements IPlaylist{
     }
 
     @Override
-    public Iterator getIterator(int id) {
-        //TODO
-        Iterator iterator = null;
-        return iterator;
+    public Iterator<Track> getIterator(EnumIterator.iterator iterator) {
+        switch (iterator) {
+            case DEFAULT: {
+                return new IteratorDefault(getTracks());
+            }
+            case REPEATABLE: {
+                return new IteratorRepeatable(getTracks());
+
+            }
+            case RANDOM: {
+                return new IteratorRandom(getTracks());
+            }
+            case RANDOMREPEATABLE: {
+                return new IteratorRandomRepeatable(getTracks());
+            }
+            default: {
+                return new IteratorDefault(getTracks());
+            }
+        }
     }
     
 }

@@ -1,5 +1,6 @@
 package proxy;
 
+import iterator.EnumIterator;
 import sources.Track;
 
 import java.util.ArrayList;
@@ -21,6 +22,6 @@ public interface IPlaylist {
     void setTracks(List<Track> tracks);
     public void removeTrack(Track track);
 
-    public Iterator getIterator(int id);
+    public Iterator<Track> getIterator(EnumIterator.iterator iterator);
 
 }
