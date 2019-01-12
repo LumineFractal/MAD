@@ -7,7 +7,6 @@ import command.CommandRemovePlaylist;
 import command.CommandRemoveTrack;
 import iterator.*;
 import javafx.util.Duration;
-import observer.PlayerObserver;
 import player.Player;
 import player.PlaylistManager;
 import sources.Track;
@@ -23,8 +22,7 @@ public class Facade {
     public Facade() {
         player = Player.getInstance();
         playlistManager = PlaylistManager.getInstance();
-        PlayerObserver observer = new PlayerObserver();
-        player.addObserver(observer);
+        player.addObserver(playlistManager);
     }
 
     public static PlaylistManager getPlaylistManager() {
@@ -97,24 +95,11 @@ public class Facade {
     }
 
     public Iterator<Track> chooseIterator(EnumIterator.iterator iterator, ArrayList<Track> tracks) {
-        switch (iterator) {
-            case DEFAULT: {
-                return new IteratorDefault(tracks);
-            }
-            case REPEATABLE: {
-                return new IteratorRepeatable(tracks);
-            }
-            case RANDOM: {
-                return new IteratorRandom(tracks);
-            }
-            case RANDOMREPEATABLE: {
-                return new IteratorRandomRepeatable(tracks);
-            }
-            default: {
-                return new IteratorDefault(tracks);
-            }
-        }
-
+        return playlistManager.chooseIterator(iterator, tracks);
+    }
+    
+    public void setTrackInIterator(Track track){
+        playlistManager.setTrackInIterator(track);
     }
 
     public void nextTrack() {
@@ -200,7 +185,6 @@ public class Facade {
         }
         sb.append((int)duration.toSeconds());
         
-        System.out.println(sb);
         return sb.toString();
     }
 

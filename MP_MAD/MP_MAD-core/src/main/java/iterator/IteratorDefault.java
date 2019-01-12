@@ -3,29 +3,30 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class IteratorDefault implements Iterator<Track> {
-    ArrayList<Track> tracks;
-    int y = -1;
+public class IteratorDefault implements TrackIterator<Track> {
+    private ArrayList<Track> tracks;
+    private int indexOfTrackInPlaylist = -1;
 
     public IteratorDefault(ArrayList tracks) {
         this.tracks = tracks;
     }
 
     @Override
+    public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
+        this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        System.out.println(indexOfTrackInPlaylist);
+    }
+
+    @Override
     public boolean hasNext() {
-        if (tracks.size() - 1 > y) {
-            return true;
-        } else {
-            return false;
-        }
+        return tracks.size() - 1 > indexOfTrackInPlaylist;
     }
 
     @Override
     public Track next() {
-        y++;
-        System.out.println(y + tracks.get(y).getPath());
-        return (Track) tracks.get(y);
+        indexOfTrackInPlaylist++;
+        System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getPath());
+        return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }

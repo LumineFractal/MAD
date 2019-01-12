@@ -4,7 +4,6 @@ import facade.Facade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -20,6 +19,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.EventHandler;
 
 public class ListController implements Initializable {
 
@@ -49,7 +50,7 @@ public class ListController implements Initializable {
     private TableColumn<Track, String> genre;
 
     @FXML
-    private TableColumn<Track, Integer> time;
+    private TableColumn<Track, String> time;
 
     @FXML
     private TableView<Track> trackTable;
@@ -105,6 +106,7 @@ public class ListController implements Initializable {
     @FXML
     void listTrackActionListener(MouseEvent event) {
         if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY) && !trackTable.getSelectionModel().isEmpty()) {
+            facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
             facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem(), false);
         }
     }
@@ -117,12 +119,12 @@ public class ListController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         trackNumber.setCellValueFactory(new PropertyValueFactory<Track, String>("trackNumber"));
+        name.setCellValueFactory(new PropertyValueFactory<Track, String>("title"));
         artist.setCellValueFactory(new PropertyValueFactory<Track, String>("artist"));
         album.setCellValueFactory(new PropertyValueFactory<Track, String>("album"));
         year.setCellValueFactory(new PropertyValueFactory<Track, String>("year"));
         genre.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
-        time.setCellValueFactory(new PropertyValueFactory<Track, Integer>("length"));
-        name.setCellValueFactory(new PropertyValueFactory<Track, String>("title"));
+        time.setCellValueFactory(track -> new ReadOnlyStringWrapper(facade.timeConverter(track.getValue().getLength().toMillis())));
 
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");

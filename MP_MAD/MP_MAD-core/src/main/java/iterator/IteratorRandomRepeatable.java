@@ -3,19 +3,19 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
-public class IteratorRandomRepeatable implements Iterator<Track> {
-    ArrayList<Track> tracks;
-    ArrayList<Boolean> wasPlayed;
-    Random generator = new Random();
-    int y = -1;
+public class IteratorRandomRepeatable implements TrackIterator<Track> {
+
+    private ArrayList<Track> tracks;
+    private ArrayList<Boolean> wasPlayed;
+    private Random generator = new Random();
+    private int indexOfTrackInPlaylist = -1;
     // int e = 0;
 
     public IteratorRandomRepeatable(ArrayList tracks) {
         this.tracks = tracks;
-        wasPlayed = new ArrayList<Boolean>();
+        wasPlayed = new ArrayList<>();
     }
 
     public void setList(int index) {
@@ -35,13 +35,18 @@ public class IteratorRandomRepeatable implements Iterator<Track> {
                 wasPlayed.set(i, false);
             }
         }
+    }
 
+    @Override
+    public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
+        this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        System.out.println(indexOfTrackInPlaylist);
     }
 
     @Override
     public boolean hasNext() {
 
-            /*  if (e < 12) {
+        /*  if (e < 12) {
                 e++;
                 return true;
             } else {
@@ -53,23 +58,23 @@ public class IteratorRandomRepeatable implements Iterator<Track> {
 
     @Override
     public Track next() {
-        y = generator.nextInt(tracks.size());
+        indexOfTrackInPlaylist = generator.nextInt(tracks.size());
         if (wasPlayed.size() != tracks.size()) {
             createList();
         }
 
-        while (wasPlayed.get(y)) {
-            y = generator.nextInt(tracks.size());
+        while (wasPlayed.get(indexOfTrackInPlaylist)) {
+            indexOfTrackInPlaylist = generator.nextInt(tracks.size());
 
         }
 
         // System.out.println(wasPlayed.toString());
-        setList(y);
+        setList(indexOfTrackInPlaylist);
         // System.out.println(wasPlayed.toString());
         // System.out.println(y + tracks.get(y).getPath());
         if (wasPlayed.stream().allMatch(val -> val == true)) {
             falseList();
         }
-        return (Track) tracks.get(y);
+        return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }

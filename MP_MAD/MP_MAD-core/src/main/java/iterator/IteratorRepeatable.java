@@ -3,16 +3,21 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class IteratorRepeatable implements Iterator<Track> {
-    ArrayList<Track> tracks;
-    int y = -1;
+public class IteratorRepeatable implements TrackIterator<Track> {
+    private ArrayList<Track> tracks;
+    private int indexOfTrackInPlaylist = -1;
 
     public IteratorRepeatable(ArrayList tracks) {
         this.tracks = tracks;
     }
 
+    @Override
+    public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
+        this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        System.out.println(indexOfTrackInPlaylist);
+    }
+    
     @Override
     public boolean hasNext() {
         return true;
@@ -20,11 +25,11 @@ public class IteratorRepeatable implements Iterator<Track> {
 
     @Override
     public Track next() {
-        y++;
-        if (tracks.size() == y) {
-            y = 0;
+        indexOfTrackInPlaylist++;
+        if (tracks.size() == indexOfTrackInPlaylist) {
+            indexOfTrackInPlaylist = 0;
         }
-        System.out.println(y);
-        return (Track) tracks.get(y);
+        System.out.println(indexOfTrackInPlaylist);
+        return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }

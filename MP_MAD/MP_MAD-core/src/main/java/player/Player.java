@@ -23,7 +23,7 @@ public class Player extends Observable implements Runnable {
 
     public void play(int actualPlaylist, Track track, boolean buttonAndDoubleClick) {
 
-        if(this.track == null){
+        if (this.track == null) {
             this.track = track;
             this.actualPlaylist = actualPlaylist;
             Media hit = new Media(new File(track.getPath()).toURI().toString());
@@ -44,18 +44,18 @@ public class Player extends Observable implements Runnable {
             if (isPlaying()) {
                 mediaPlayer.stop();
             }
-            Media hit = new Media(new File( track.getPath()).toURI().toString());
+            Media hit = new Media(new File(track.getPath()).toURI().toString());
             mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.setVolume(volume);
             if (!(isPlaying())) {
                 mediaPlayer.play();
-            }else {
+            } else {
                 mediaPlayer.pause();
             }
         }
     }
 
-    public Track getTrack(){
+    public Track getTrack() {
         return track;
     }
 
@@ -90,19 +90,17 @@ public class Player extends Observable implements Runnable {
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
-                if(hasEnded()){
+                if (hasEnded()) {
                     setChanged();
                     notifyObservers();
-                    break;
+                    //break;
                 }
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
-        
     }
-
 }

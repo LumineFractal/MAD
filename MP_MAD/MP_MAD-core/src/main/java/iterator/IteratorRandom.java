@@ -3,14 +3,13 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
-public class IteratorRandom implements Iterator<Track> {
-    ArrayList<Track> tracks;
-    ArrayList<Boolean> wasPlayed;
-    Random generator = new Random();
-    int y = -1;
+public class IteratorRandom implements TrackIterator<Track> {
+    private ArrayList<Track> tracks;
+    private ArrayList<Boolean> wasPlayed;
+    private Random generator = new Random();
+    private int indexOfTrackInPlaylist = -1;
 
     public IteratorRandom(ArrayList tracks) {
         this.tracks = tracks;
@@ -19,7 +18,6 @@ public class IteratorRandom implements Iterator<Track> {
 
     public void setList(int index) {
         wasPlayed.set(index, true);
-
     }
 
     public void createList() {
@@ -27,15 +25,17 @@ public class IteratorRandom implements Iterator<Track> {
             wasPlayed.add(false);
         }
     }
+    
+    @Override
+    public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
+        this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        System.out.println(indexOfTrackInPlaylist);
+    }
 
     @Override
     public boolean hasNext() {
         if (wasPlayed.size() == tracks.size()) {
-            if (wasPlayed.stream().allMatch(val -> val == true)) {
-                return false;
-            } else {
-                return true;
-            }
+            return !wasPlayed.stream().allMatch(val -> val == true);
         } else {
             return true;
         }
@@ -46,14 +46,14 @@ public class IteratorRandom implements Iterator<Track> {
         // System.out.println(wasPlayed.toString());
         createList();
         // System.out.println(wasPlayed.toString());
-        y = generator.nextInt(tracks.size());
-        while (wasPlayed.get(y)) {
-            y = generator.nextInt(tracks.size());
+        indexOfTrackInPlaylist = generator.nextInt(tracks.size());
+        while (wasPlayed.get(indexOfTrackInPlaylist)) {
+            indexOfTrackInPlaylist = generator.nextInt(tracks.size());
 
         }
 
-        setList(y);
-        System.out.println(y + tracks.get(y).getTitle());
-        return (Track) tracks.get(y);
+        setList(indexOfTrackInPlaylist);
+        System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getTitle());
+        return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }
