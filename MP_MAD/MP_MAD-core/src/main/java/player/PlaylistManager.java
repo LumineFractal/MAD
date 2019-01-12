@@ -1,23 +1,12 @@
 package player;
 
 import command.Command;
-import iterator.EnumIterator;
-import iterator.IteratorDefault;
-import iterator.IteratorRandom;
-import iterator.IteratorRandomRepeatable;
-import iterator.IteratorRepeatable;
-import iterator.TrackIterator;
+import iterator.*;
 import proxy.IPlaylist;
 import proxy.Playlist;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Stack;
-import jdk.nashorn.tools.Shell;
 import sources.Track;
+
+import java.util.*;
 
 public class PlaylistManager implements Command, Observer {
 
@@ -109,7 +98,7 @@ public class PlaylistManager implements Command, Observer {
                 break;
             }
         }
-        iterator = (TrackIterator) chooseIterator(nameIterator, playlists.get(Player.getInstance().getActualPlaylist()).getTracks());
+        iterator = (TrackIterator) playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
     }
 
     @Override
@@ -164,7 +153,7 @@ public class PlaylistManager implements Command, Observer {
 
     public void setIterator() {
         if (iterator == null ) {
-            this.iterator = (TrackIterator) chooseIterator(nameIterator, playlists.get(Player.getInstance().getActualPlaylist()).getTracks());
+            this.iterator = (TrackIterator) playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
         }
     }
 

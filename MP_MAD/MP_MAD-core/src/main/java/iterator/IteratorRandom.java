@@ -3,6 +3,7 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class IteratorRandom implements TrackIterator<Track> {
@@ -29,7 +30,10 @@ public class IteratorRandom implements TrackIterator<Track> {
     @Override
     public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        Collections.fill(wasPlayed, false);
+        setList(indexOfTrackInPlaylist);
         System.out.println(indexOfTrackInPlaylist);
+        System.out.println(wasPlayed);
     }
 
     @Override

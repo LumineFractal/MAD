@@ -3,6 +3,7 @@ package iterator;
 import sources.Track;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class IteratorRandomRepeatable implements TrackIterator<Track> {
@@ -29,30 +30,15 @@ public class IteratorRandomRepeatable implements TrackIterator<Track> {
         }
     }
 
-    public void falseList() {
-        if (wasPlayed.size() == tracks.size()) {
-            for (int i = 0; i < wasPlayed.size(); i++) {
-                wasPlayed.set(i, false);
-            }
-        }
-    }
-
     @Override
     public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
+        setList(indexOfTrackInPlaylist);
         System.out.println(indexOfTrackInPlaylist);
     }
 
     @Override
     public boolean hasNext() {
-
-        /*  if (e < 12) {
-                e++;
-                return true;
-            } else {
-
-                return false;
-            }*/
         return true;
     }
 
@@ -72,9 +58,9 @@ public class IteratorRandomRepeatable implements TrackIterator<Track> {
         setList(indexOfTrackInPlaylist);
         // System.out.println(wasPlayed.toString());
         // System.out.println(y + tracks.get(y).getPath());
-        if (wasPlayed.stream().allMatch(val -> val == true)) {
-            falseList();
-        }
+        if (wasPlayed.stream().allMatch(val -> val == true))
+            Collections.fill(wasPlayed, false);
+
         return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }
