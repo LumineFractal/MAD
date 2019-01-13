@@ -1,9 +1,11 @@
 package controller;
 
 import facade.Facade;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -19,8 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.event.EventHandler;
 
 public class ListController implements Initializable {
 
@@ -109,6 +109,7 @@ public class ListController implements Initializable {
             facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
             facade.playTrack(parent.getPlaylistContainer().getSelectionModel().getSelectedIndex(), trackTable.getSelectionModel().getSelectedItem(), false);
         }
+        parent.changePlayButton(false);
     }
 
     @FXML

@@ -70,12 +70,13 @@
                 <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                   <Button fx:id="playButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                           minWidth="-Infinity" mnemonicParsing="false" onAction="#playButtonActionListener"
-                           prefHeight="60.0" prefWidth="60.0" styleClass="playButton" GridPane.columnIndex="3"/>
-                   <Button fx:id="previousButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                           onAction="#previousButtonActionListener" styleClass="previousButton" GridPane.columnIndex="2"
-                           GridPane.halignment="RIGHT">
+                   <Button fx:id="playButton" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0"
+                           mnemonicParsing="false" onAction="#playButtonActionListener" prefHeight="60.0"
+                           prefWidth="60.0" styleClass="playButton" GridPane.columnIndex="3"/>
+                   <Button fx:id="previousButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="40.0"
+                           maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false"
+                           onAction="#previousButtonActionListener" prefHeight="40.0" prefWidth="40.0"
+                           styleClass="previousButton" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -83,9 +84,10 @@
                            <Insets right="5.0"/>
                        </GridPane.margin>
                   </Button>
-                   <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                           onAction="#nextButtonActionListener" styleClass="nextButton" GridPane.columnIndex="4"
-                           GridPane.halignment="LEFT">
+                   <Button fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="40.0"
+                           maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false"
+                           onAction="#nextButtonActionListener" prefHeight="40.0" prefWidth="40.0"
+                           styleClass="nextButton" GridPane.columnIndex="4" GridPane.halignment="LEFT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -101,10 +103,12 @@
                           <Insets left="5.0"/>
                       </GridPane.margin>
                   </Slider>
-                   <ToggleButton fx:id="playmodeButton" mnemonicParsing="false" onAction="#playmodeButtonActionListener"
-                                 text="ToggleButton" GridPane.columnIndex="1"/>
-                   <ToggleButton fx:id="loopmodeButton" mnemonicParsing="false" onAction="#loopmodeButtonActionListener"
-                                 text="ToggleButton" GridPane.columnIndex="5"/>
+                   <ToggleButton fx:id="playmodeButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0"
+                                 minWidth="30.0" mnemonicParsing="false" onAction="#playmodeButtonActionListener"
+                                 prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="1"/>
+                   <ToggleButton fx:id="loopmodeButton" maxHeight="30.0" maxWidth="30.0" minHeight="30.0"
+                                 minWidth="30.0" mnemonicParsing="false" onAction="#loopmodeButtonActionListener"
+                                 prefHeight="30.0" prefWidth="30.0" GridPane.columnIndex="5"/>
                </children>
             </GridPane>
          </children>

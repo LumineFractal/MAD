@@ -64,6 +64,9 @@ public class Player extends Observable implements Runnable {
     }
 
     public boolean isPlaying() {
+        if (mediaPlayer == null) {
+            return false;
+        }
         Status status = mediaPlayer.getStatus();
         return status == Status.PLAYING;
     }

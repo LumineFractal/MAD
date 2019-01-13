@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -76,6 +78,7 @@ public class MainController implements Initializable {
         if (!playlistContainer.getTabs().isEmpty()) {
             facade.playTrack(-1, null, true);
         }
+        changePlayButton(true);
     }
 
     @FXML
@@ -194,6 +197,26 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        changePlayButton(false);
+
+        playButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                changePlayButton(true);
+            }
+        });
+        playButton.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                changePlayButton(false);
+            }
+        });
+
+        iconLoadingButton(nextButton, "icon_next");
+        iconLoadingButton(previousButton, "icon_previous");
+        iconLoadingToggleButton(loopmodeButton, "icon_loop");
+        iconLoadingToggleButton(playmodeButton, "icon_random");
+
         volume.setValue(0.5 * 100);
         volume.valueProperty().addListener((Observable observable) -> {
             facade.setVolume(volume.getValue());
@@ -253,4 +276,77 @@ public class MainController implements Initializable {
         double newSongTime = ((progressBar.getValue() / 100) * player.getMediaPlayer().getStopTime().toMillis());
         player.getMediaPlayer().seek(Duration.millis(newSongTime));
     }
+
+    public void changePlayButton(boolean isHover) {
+        Image icon_play;
+        if (isHover) {
+            if (facade.getPlayer().isPlaying()) {
+                icon_play = new Image("file:image/icon_stop_hover.png", 60, 60, true, true);
+            } else {
+                icon_play = new Image("file:image/icon_play_hover.png", 60, 60, true, true);
+            }
+        } else {
+            if (facade.getPlayer().isPlaying()) {
+                icon_play = new Image("file:image/icon_stop.png", 60, 60, true, true);
+            } else {
+                icon_play = new Image("file:image/icon_play.png", 60, 60, true, true);
+            }
+        }
+        playButton.setGraphic(new ImageView(icon_play));
+    }
+
+    public void iconLoadingButton(Button button, String nameFile) {
+        Image icon = new Image("file:image/" + nameFile + ".png", 40, 40, true, true);
+        button.setGraphic(new ImageView(icon));
+
+        button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Image icon = new Image("file:image/" + nameFile + "_hover.png", 40, 40, true, true);
+                button.setGraphic(new ImageView(icon));
+            }
+        });
+
+        button.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Image icon = new Image("file:image/" + nameFile + ".png", 40, 40, true, true);
+                button.setGraphic(new ImageView(icon));
+            }
+        });
+
+    }
+
+    public void iconLoadingToggleButton(ToggleButton button, String nameFile) {
+        Image icon = new Image("file:image/" + nameFile + ".png", 30, 30, true, true);
+        button.setGraphic(new ImageView(icon));
+
+        button.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (button.isSelected()) {
+                    Image icon = new Image("file:image/" + nameFile + "_hover_selected.png", 30, 30, true, true);
+                    button.setGraphic(new ImageView(icon));
+                } else {
+                    Image icon = new Image("file:image/" + nameFile + "_hover.png", 30, 30, true, true);
+                    button.setGraphic(new ImageView(icon));
+                }
+            }
+        });
+
+        button.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (button.isSelected()) {
+                    Image icon = new Image("file:image/" + nameFile + "_selected.png", 30, 30, true, true);
+                    button.setGraphic(new ImageView(icon));
+                } else {
+                    Image icon = new Image("file:image/" + nameFile + ".png", 30, 30, true, true);
+                    button.setGraphic(new ImageView(icon));
+                }
+            }
+        });
+
+    }
+
 }
