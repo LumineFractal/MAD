@@ -14,11 +14,11 @@ public class IteratorRandom implements TrackIterator<Track> {
 
     public IteratorRandom(ArrayList tracks) {
         this.tracks = tracks;
-        wasPlayed = new ArrayList<Boolean>(tracks);
+        wasPlayed = new ArrayList<>(tracks);
+        Collections.fill(wasPlayed, false);
     }
 
     public void setList(int index) {
-        System.out.println(wasPlayed.size());
         wasPlayed.set(index, true);
     }
 
@@ -33,8 +33,6 @@ public class IteratorRandom implements TrackIterator<Track> {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
         Collections.fill(wasPlayed, false);
         setList(indexOfTrackInPlaylist);
-        System.out.println(indexOfTrackInPlaylist);
-        System.out.println(wasPlayed);
     }
 
     @Override
@@ -48,15 +46,11 @@ public class IteratorRandom implements TrackIterator<Track> {
 
     @Override
     public Track next() {
-        // System.out.println(wasPlayed.toString());
         createList();
-        // System.out.println(wasPlayed.toString());
         indexOfTrackInPlaylist = generator.nextInt(tracks.size());
         while (wasPlayed.get(indexOfTrackInPlaylist)) {
             indexOfTrackInPlaylist = generator.nextInt(tracks.size());
-
         }
-
         setList(indexOfTrackInPlaylist);
         System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getTitle());
         return (Track) tracks.get(indexOfTrackInPlaylist);

@@ -15,7 +15,6 @@ public class IteratorRepeatable implements TrackIterator<Track> {
     @Override
     public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
-        System.out.println(indexOfTrackInPlaylist);
     }
     
     @Override
@@ -29,7 +28,6 @@ public class IteratorRepeatable implements TrackIterator<Track> {
         if (tracks.size() == indexOfTrackInPlaylist) {
             indexOfTrackInPlaylist = 0;
         }
-        System.out.println(indexOfTrackInPlaylist);
         return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 

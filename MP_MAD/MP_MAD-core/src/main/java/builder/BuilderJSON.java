@@ -14,10 +14,10 @@ import sources.Track;
  */
 public class BuilderJSON implements Builder {
 
-    JSONObject json = new JSONObject();
-    JSONArray jsonPlaylists = new JSONArray();
-    JSONObject playlist;
-    JSONArray tracks;
+    private JSONObject json = new JSONObject();
+    private JSONArray jsonPlaylists = new JSONArray();
+    private JSONObject playlist;
+    private JSONArray tracks;
 
     @Override
     public void addTitle(String title) {

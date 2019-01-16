@@ -16,9 +16,9 @@ import sources.Track;
  */
 public class BuilderXML implements Builder {
 
-    Element xmlPlaylists = new Element("Playlists");
-    Document xml = new Document(xmlPlaylists);
-    Element playlist, tracks;
+    private Element xmlPlaylists = new Element("Playlists");
+    private Document xml = new Document(xmlPlaylists);
+    private Element playlist, tracks;
 
     @Override
     public void addTitle(String title) {

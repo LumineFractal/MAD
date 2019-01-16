@@ -7,9 +7,7 @@ public class Originator {
         state = new SaveInfromation();
     }
 
-    public Memento saveStateToMemento() {
 
-    }
 
     public void getStateToMemento(Memento memento) {
 
