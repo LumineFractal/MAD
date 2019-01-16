@@ -30,6 +30,7 @@ public class Facade {
             }
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
+            playlistManager.setTrackInIterator(track);
         }
         if(thread==null || !thread.isAlive()){
                 thread = new Thread(player);

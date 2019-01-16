@@ -188,6 +188,9 @@ public class PlaylistManager implements Command, Observer {
 
     public void setTrackInIterator(Track track) {
         setIterator();
+        if(playlists.get(Player.getInstance().getActualPlaylist()).getTracks() != iterator.getTracks()){
+            iterator = (TrackIterator)playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
+        }
         ArrayList tracks = playlists.get(Player.getInstance().getActualPlaylist()).getTracks();
         //TODO
         for (int i = 0; i < tracks.size(); i++) {
@@ -200,9 +203,6 @@ public class PlaylistManager implements Command, Observer {
     @Override
     public void update(Observable o, Object arg) {
         setIterator();
-        if(playlists.get(Player.getInstance().getActualPlaylist()).getTracks() != iterator.getTracks()){
-            iterator = (TrackIterator)playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
-        }
         if (iterator.hasNext()) {
             Player.getInstance().play(Player.getInstance().getActualPlaylist(), (Track) iterator.next(), true);
         }
