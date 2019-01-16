@@ -52,6 +52,7 @@ public class PlaylistManager implements Command, Observer {
     }
 
     public IPlaylist getPlaylist(int index) {
+        playlists.get(index).getIterator(nameIterator);
         return playlists.get(index);
     }
 

@@ -101,10 +101,6 @@ public class MainController implements Initializable {
             facade.getPlaylistManager().setNameIterator(true, true);
         else
             facade.getPlaylistManager().setNameIterator(false, true);
-
-        System.out.println(facade.getPlaylistManager().getNameIterator());
-
-
     }
 
     @FXML
@@ -113,16 +109,13 @@ public class MainController implements Initializable {
             facade.getPlaylistManager().setNameIterator(true, false);
         else
             facade.getPlaylistManager().setNameIterator(false, false);
-
-        System.out.println(facade.getPlaylistManager().getNameIterator());
-
     }
 
     @FXML
     void addListActionListener(ActionEvent event) {
         undoButton.setDisable(false);
         facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
-        Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
+        Tab tab = new Tab(facade.getLastPlaylist().getName());
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
         MenuItem copy = new MenuItem("Copy");
@@ -153,16 +146,17 @@ public class MainController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
                     TextField name = new TextField();
+                    String nameOlder = playlistContainer.getSelectionModel().getSelectedItem().getText();
                     name.setOnKeyPressed(new EventHandler<KeyEvent>() {
                         @Override
                         public void handle(KeyEvent event1) {
                             if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
                                 String nameCorrect = facade.namePlaylistUnique(name.getText());
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
-                                facade.getPlaylistManager().getPlaylist(playlistContainer.getSelectionModel().getSelectedIndex()).setName(nameCorrect);
+                                facade.getPlaylist(nameOlder).setName(nameCorrect);
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
                             } else if (event1.getCode() == KeyCode.ENTER) {
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(facade.getPlaylistManager().getPlaylist(playlistContainer.getSelectionModel().getSelectedIndex()).getName());
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameOlder);
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
                             }
                         }
@@ -173,7 +167,7 @@ public class MainController implements Initializable {
                     for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
                         if (playlistContainer.getTabs().get(i).getGraphic() != null) {
                             playlistContainer.getTabs().get(i).setGraphic(null);
-                            playlistContainer.getTabs().get(i).setText(facade.getPlaylistManager().getPlaylist(i).getName());
+                            playlistContainer.getTabs().get(i).setText(facade.getPlaylist(i).getName());
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import command.*;
 import javafx.util.Duration;
 import player.Player;
 import player.PlaylistManager;
+import proxy.IPlaylist;
 import sources.Track;
 
 import java.util.List;
@@ -197,6 +198,26 @@ public class Facade {
         if(playlistManager.isRedoAvailable()){
             playlistManager.redo();
         }
+    }
+
+    public int getIndexPlaylist(String name) {
+        for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
+            if (playlistManager.getPlaylist(i).getName().equals(name))
+                return i;
+        }
+        return -1;
+    }
+
+    public IPlaylist getLastPlaylist() {
+        return playlistManager.getPlaylist(playlistManager.getPlaylists().size() - 1);
+    }
+
+    public IPlaylist getPlaylist(String name) {
+        return playlistManager.getPlaylist(getIndexPlaylist(name));
+    }
+
+    public IPlaylist getPlaylist(int idx) {
+        return playlistManager.getPlaylist(idx);
     }
 
 }
