@@ -11,6 +11,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/FXML/MainWindow.fxml"));
         GridPane mainWindow = loader.load();
+
         Scene scene = new Scene(mainWindow);
         scene.getStylesheets().add("css/style.css");
         primaryStage.setTitle("Music player MAD");
