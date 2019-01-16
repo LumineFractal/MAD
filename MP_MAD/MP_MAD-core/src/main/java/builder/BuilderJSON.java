@@ -14,24 +14,30 @@ import sources.Track;
  */
 public class BuilderJSON implements Builder {
 
-    JSONObject playlist = new JSONObject();
-    JSONArray tracks = new JSONArray();
-    String t;
+    JSONObject json = new JSONObject();
+    JSONArray jsonPlaylists = new JSONArray();
+    JSONObject playlist;
+    JSONArray tracks;
 
     @Override
     public void addTitle(String title) {
+        if (playlist != null) jsonPlaylists.add(playlist);
+        playlist = new JSONObject();
+        tracks = new JSONArray();
         playlist.put("Playlist title", title);
     }
 
     @Override
     public void addTrack(Track track) {
         tracks.add(track.getPath());
-    }
-
-    public JSONObject getResult() {
-        System.out.println("dupda daup " + playlist);
         playlist.put("Tracks", tracks);
 
-        return playlist;
+    }
+
+    public String getResult() {
+
+        jsonPlaylists.add(playlist);
+        json.put("Playlists", jsonPlaylists);
+        return json.toJSONString();
     }
 }

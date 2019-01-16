@@ -1,18 +1,11 @@
 package facade;
 
-import command.CommandAddTrack;
-import command.CommandCreatePlaylist;
-import command.CommandEditPlaylist;
-import command.CommandRemovePlaylist;
-import command.CommandRemoveTrack;
-import iterator.*;
+import command.*;
 import javafx.util.Duration;
 import player.Player;
 import player.PlaylistManager;
 import sources.Track;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Facade {
@@ -66,6 +59,10 @@ public class Facade {
         }
     }
 
+    public void copyPlaylist(String name) {
+        // playlistManager.createPlaylist();
+    }
+
     public void addTrack(int idx, Track track) {
         playlistManager.addUndo(new CommandAddTrack(playlistManager.getPlaylist(idx), track));
         playlistManager.getPlaylist(idx).addTrack(track);
@@ -94,9 +91,6 @@ public class Facade {
 
     }
 
-    public Iterator<Track> chooseIterator(EnumIterator.iterator iterator, ArrayList<Track> tracks) {
-        return playlistManager.chooseIterator(iterator, tracks);
-    }
     
     public void setTrackInIterator(Track track){
         playlistManager.setTrackInIterator(track);

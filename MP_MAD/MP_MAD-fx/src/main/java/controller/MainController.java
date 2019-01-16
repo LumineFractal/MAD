@@ -125,6 +125,7 @@ public class MainController implements Initializable {
         Tab tab = new Tab(Facade.getPlaylistManager().getPlaylist(Facade.getPlaylistManager().getPlaylists().size() - 1).getName());
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
+        MenuItem copy = new MenuItem("Copy");
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -132,7 +133,20 @@ public class MainController implements Initializable {
                 playlistContainer.getTabs().remove(tab);
             }
         });
+
+        copy.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    facade.getPlaylistManager().createJSON(facade.getPlaylistManager().getPlaylist(0));
+                    facade.getPlaylistManager().createXML(facade.getPlaylistManager().getPlaylist(0));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         contextMenu.getItems().add(delete);
+        contextMenu.getItems().add(copy);
         tab.setContextMenu(contextMenu);
         playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

@@ -1,11 +1,19 @@
 package player;
 
+import builder.BuilderJSON;
+import builder.BuilderXML;
 import command.Command;
-import iterator.*;
+import iterator.EnumIterator;
+import iterator.TrackIterator;
 import proxy.IPlaylist;
 import proxy.Playlist;
 import sources.Track;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class PlaylistManager implements Command, Observer {
@@ -121,38 +129,58 @@ public class PlaylistManager implements Command, Observer {
         return !redoList.empty();
     }
 
-    public void createXML(IPlaylist playlist) {
+    public void createXML(IPlaylist playlist) throws IOException {
+        BuilderXML builderXML = new BuilderXML();
 
-    }
-
-    public void createJSON(IPlaylist playlist) {
-
-    }
-
-    public Iterator<Track> chooseIterator(EnumIterator.iterator iterator, ArrayList<Track> tracks) {
-        switch (iterator) {
-            case DEFAULT: {
-                return new IteratorDefault(tracks);
-            }
-            case REPEATABLE: {
-                return new IteratorRepeatable(tracks);
-            }
-            case RANDOM: {
-                return new IteratorRandom(tracks);
-            }
-            case RANDOMREPEATABLE: {
-                return new IteratorRandomRepeatable(tracks);
-            }
-            default: {
-                return new IteratorDefault(tracks);
-            }
+        for (int i = 0; i < playlists.size(); i++) {
+            builderXML.addTitle(playlists.get(i).getName());
+            for (int j = 0; j < playlists.get(i).getTracks().size(); j++)
+                builderXML.addTrack(playlists.get(i).getTracks().get(j));
         }
+
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        File f = new File(s + "/playlists");
+        if (!f.exists() || !f.isDirectory()) {
+            new File("playlists").mkdirs();
+            System.out.println("Tworzenie folderu");
+        }
+        File ww = new File(s + "/playlists", "playlists.xml");
+        ww.createNewFile();
+        try (FileWriter writer = new FileWriter(ww)) {
+            writer.write(builderXML.getResult());
+        }
+
+    }
+
+    public void createJSON(IPlaylist playlist) throws IOException {
+        BuilderJSON builderJSON = new BuilderJSON();
+
+        for (int i = 0; i < playlists.size(); i++) {
+            builderJSON.addTitle(playlists.get(i).getName());
+            for (int j = 0; j < playlists.get(i).getTracks().size(); j++)
+                builderJSON.addTrack(playlists.get(i).getTracks().get(j));
+        }
+
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        File f = new File(s + "/playlists");
+        if (!f.exists() || !f.isDirectory()) {
+            new File("playlists").mkdirs();
+            System.out.println("Tworzenie folderu");
+        }
+        File ww = new File(s + "/playlists", "playlists.json");
+        ww.createNewFile();
+        try (FileWriter writer = new FileWriter(ww)) {
+            writer.write(builderJSON.getResult());
+        }
+
     }
 
     private TrackIterator iterator;
 
     public void setIterator() {
-        if (iterator == null ) {
+        if (iterator == null) {
             this.iterator = (TrackIterator) playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
         }
     }
@@ -171,7 +199,7 @@ public class PlaylistManager implements Command, Observer {
     @Override
     public void update(Observable o, Object arg) {
         setIterator();
-        if(iterator.hasNext()){
+        if (iterator.hasNext()) {
             Player.getInstance().play(Player.getInstance().getActualPlaylist(), (Track) iterator.next(), true);
         }
     }

@@ -5,7 +5,10 @@
  */
 package builder;
 
-import org.w3c.dom.Document;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import sources.Track;
 
 /**
@@ -13,26 +16,29 @@ import sources.Track;
  */
 public class BuilderXML implements Builder {
 
-    String title;
-    Track track;
-    Document document;
-    //Element element;
+    Element xmlPlaylists = new Element("Playlists");
+    Document xml = new Document(xmlPlaylists);
+    Element playlist, tracks;
 
     @Override
     public void addTitle(String title) {
-        // element =
-        document.appendChild(document.createElement("Tracks"));
+        if (playlist != null) xmlPlaylists.addContent(playlist);
+        playlist = new Element("Playlist");
+        playlist.setAttribute("name", title);
     }
 
     @Override
     public void addTrack(Track track) {
-        document.appendChild(document.createElement(track.getPath()));
+        tracks = new Element("Track");
+        tracks.setText(track.getPath());
+        playlist.addContent(tracks);
     }
 
-    public Document getResult() {
-        System.out.println("dupda daup" + document);
-
-        return document;
+    public String getResult() {
+        XMLOutputter xmlOutput = new XMLOutputter();
+        xmlOutput.setFormat(Format.getPrettyFormat());
+        xmlPlaylists.addContent(playlist);
+        return xmlOutput.outputString(xml);
     }
 
 }
