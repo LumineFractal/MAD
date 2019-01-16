@@ -32,16 +32,16 @@ public class Facade {
         if (idxPlaylist == -1 && track == null) {
             if (player.getTrack() != null) {
                 player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);
-            } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
+            } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {;
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
-            if(thread==null || !thread.isAlive()){
+        }
+        if(thread==null || !thread.isAlive()){
                 thread = new Thread(player);
                 thread.setDaemon(true);
                 thread.start();
-            }
         }
     }
 

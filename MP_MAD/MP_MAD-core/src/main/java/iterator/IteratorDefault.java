@@ -12,6 +12,10 @@ public class IteratorDefault implements TrackIterator<Track> {
         this.tracks = tracks;
     }
 
+    public ArrayList<Track> getTracks() {
+        return tracks;
+    }
+    
     @Override
     public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;

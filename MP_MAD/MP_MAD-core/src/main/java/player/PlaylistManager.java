@@ -200,6 +200,9 @@ public class PlaylistManager implements Command, Observer {
     @Override
     public void update(Observable o, Object arg) {
         setIterator();
+        if(playlists.get(Player.getInstance().getActualPlaylist()).getTracks() != iterator.getTracks()){
+            iterator = (TrackIterator)playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
+        }
         if (iterator.hasNext()) {
             Player.getInstance().play(Player.getInstance().getActualPlaylist(), (Track) iterator.next(), true);
         }

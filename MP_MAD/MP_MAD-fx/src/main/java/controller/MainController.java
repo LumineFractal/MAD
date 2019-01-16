@@ -76,6 +76,8 @@ public class MainController implements Initializable {
     @FXML
     void playButtonActionListener(ActionEvent event) {
         if (!playlistContainer.getTabs().isEmpty()) {
+            //TODO tzeba to te¿ daæ
+            //facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
             facade.playTrack(-1, null, true);
         }
         changePlayButton(true);
