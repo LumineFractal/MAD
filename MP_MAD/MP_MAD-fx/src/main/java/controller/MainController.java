@@ -315,7 +315,7 @@ public class MainController implements Initializable {
                             if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
                                 String nameCorrect = facade.namePlaylistUnique(name.getText());
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
-                                facade.getPlaylist(nameOlder).setName(nameCorrect);
+                                facade.setNamePlaylist(nameOlder, nameCorrect);
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
                                 if (!redoButton.isDisable()) {
                                     redoButton.setDisable(true);
@@ -439,6 +439,7 @@ public class MainController implements Initializable {
         copy.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                facade.getPlaylists().add(facade.getPlaylist(tab.getText()).copy());
                 if (!redoButton.isDisable()) {
                     redoButton.setDisable(true);
                 }

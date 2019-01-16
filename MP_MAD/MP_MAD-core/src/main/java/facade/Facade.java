@@ -8,6 +8,7 @@ import proxy.IPlaylist;
 import sources.Track;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Facade {
@@ -99,7 +100,7 @@ public class Facade {
 
 
         if (!isSameList) {
-            playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx), "wez to zmien"));
+            playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx), (ArrayList) tracks));
             playlistManager.getPlaylist(idx).setTracks(tracks);
         }
         try {
@@ -275,6 +276,17 @@ public class Facade {
 
     public boolean isRedoAvailable() {
         return playlistManager.isRedoAvailable();
+    }
+
+    public void setNamePlaylist(String olderName, String newName) {
+        playlistManager.addUndo(new CommandEditNamePlaylist(getPlaylist(olderName), newName));
+        getPlaylist(olderName).setName(newName);
+        try {
+            playlistManager.createJSON();
+            playlistManager.createXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
