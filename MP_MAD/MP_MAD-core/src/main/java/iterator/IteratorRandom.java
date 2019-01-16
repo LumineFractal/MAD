@@ -60,4 +60,9 @@ public class IteratorRandom implements TrackIterator<Track> {
         System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getTitle());
         return (Track) tracks.get(indexOfTrackInPlaylist);
     }
+
+    @Override
+    public ArrayList<Track> getTracks() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

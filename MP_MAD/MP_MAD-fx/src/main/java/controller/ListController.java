@@ -106,8 +106,9 @@ public class ListController implements Initializable {
     @FXML
     void listTrackActionListener(MouseEvent event) {
         if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY) && !trackTable.getSelectionModel().isEmpty()) {
-            facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
+            
             facade.playTrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), trackTable.getSelectionModel().getSelectedItem(), false);
+            facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
         }
         parent.changePlayButton(false);
     }
