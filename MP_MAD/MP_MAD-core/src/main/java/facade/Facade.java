@@ -7,6 +7,7 @@ import player.PlaylistManager;
 import proxy.IPlaylist;
 import sources.Track;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Facade {
@@ -18,14 +19,6 @@ public class Facade {
         player = Player.getInstance();
         playlistManager = PlaylistManager.getInstance();
         player.addObserver(playlistManager);
-    }
-
-    public static PlaylistManager getPlaylistManager() {
-        return playlistManager;
-    }
-
-    public static Player getPlayer() {
-        return player;
     }
 
     public void playTrack(int idxPlaylist, Track track, boolean buttonAndDoubleClick) {
@@ -53,6 +46,12 @@ public class Facade {
     public void createPlaylist(String name) {
         playlistManager.addUndo(new CommandCreatePlaylist(name));
         playlistManager.createPlaylist(name);
+        try {
+            playlistManager.createJSON();
+            playlistManager.createXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removePlaylist(String name) {
@@ -60,6 +59,12 @@ public class Facade {
             if (name.equals(playlistManager.getPlaylist(i).getName())) {
                 playlistManager.addUndo(new CommandRemovePlaylist(playlistManager.getPlaylist(i), i));
                 playlistManager.removePlaylist(i);
+                try {
+                    playlistManager.createJSON();
+                    playlistManager.createXML();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
@@ -72,6 +77,12 @@ public class Facade {
     public void addTrack(int idx, Track track) {
         playlistManager.addUndo(new CommandAddTrack(playlistManager.getPlaylist(idx), track));
         playlistManager.getPlaylist(idx).addTrack(track);
+        try {
+            playlistManager.createJSON();
+            playlistManager.createXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void editPlaylist(int idx, List<Track> tracks) {
@@ -89,11 +100,23 @@ public class Facade {
             playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx), "wez to zmien"));
             playlistManager.getPlaylist(idx).setTracks(tracks);
         }
+        try {
+            playlistManager.createJSON();
+            playlistManager.createXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void removetrack(int idx, Track track) {
         playlistManager.addUndo(new CommandRemoveTrack(playlistManager.getPlaylist(idx), track));
         playlistManager.getPlaylist(idx).removeTrack(track);
+        try {
+            playlistManager.createJSON();
+            playlistManager.createXML();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -218,6 +241,14 @@ public class Facade {
 
     public IPlaylist getPlaylist(int idx) {
         return playlistManager.getPlaylist(idx);
+    }
+
+    public boolean isPlaying() {
+        return player.isPlaying();
+    }
+
+    public void setNameIterator(boolean isActive, boolean RandomOrRepeatable) {
+        playlistManager.setNameIterator(isActive, RandomOrRepeatable);
     }
 
 }

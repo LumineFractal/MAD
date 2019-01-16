@@ -130,7 +130,7 @@ public class PlaylistManager implements Command, Observer {
         return !redoList.empty();
     }
 
-    public void createXML(IPlaylist playlist) throws IOException {
+    public void createXML() throws IOException {
         BuilderXML builderXML = new BuilderXML();
 
         for (int i = 0; i < playlists.size(); i++) {
@@ -154,7 +154,7 @@ public class PlaylistManager implements Command, Observer {
 
     }
 
-    public void createJSON(IPlaylist playlist) throws IOException {
+    public void createJSON() throws IOException {
         BuilderJSON builderJSON = new BuilderJSON();
 
         for (int i = 0; i < playlists.size(); i++) {

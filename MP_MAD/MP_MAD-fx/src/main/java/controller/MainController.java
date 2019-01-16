@@ -98,17 +98,17 @@ public class MainController implements Initializable {
     @FXML
     void playmodeButtonActionListener(ActionEvent event) {
         if (!playmodeButton.isSelected())
-            facade.getPlaylistManager().setNameIterator(true, true);
+            facade.setNameIterator(true, true);
         else
-            facade.getPlaylistManager().setNameIterator(false, true);
+            facade.setNameIterator(false, true);
     }
 
     @FXML
     void loopmodeButtonActionListener(ActionEvent event) {
         if (!loopmodeButton.isSelected())
-            facade.getPlaylistManager().setNameIterator(true, false);
+            facade.setNameIterator(true, false);
         else
-            facade.getPlaylistManager().setNameIterator(false, false);
+            facade.setNameIterator(false, false);
     }
 
     @FXML
@@ -130,12 +130,6 @@ public class MainController implements Initializable {
         copy.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    facade.getPlaylistManager().createJSON(facade.getPlaylistManager().getPlaylist(0));
-                    facade.getPlaylistManager().createXML(facade.getPlaylistManager().getPlaylist(0));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
         contextMenu.getItems().add(delete);
@@ -288,13 +282,13 @@ public class MainController implements Initializable {
     public void changePlayButton(boolean isHover) {
         Image icon_play;
         if (isHover) {
-            if (facade.getPlayer().isPlaying()) {
+            if (facade.isPlaying()) {
                 icon_play = new Image("file:image/icon_stop_hover.png", 60, 60, true, true);
             } else {
                 icon_play = new Image("file:image/icon_play_hover.png", 60, 60, true, true);
             }
         } else {
-            if (facade.getPlayer().isPlaying()) {
+            if (facade.isPlaying()) {
                 icon_play = new Image("file:image/icon_stop.png", 60, 60, true, true);
             } else {
                 icon_play = new Image("file:image/icon_play.png", 60, 60, true, true);
