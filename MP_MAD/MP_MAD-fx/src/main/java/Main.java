@@ -1,9 +1,12 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import memento.CareTaker;
 
 public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
@@ -20,6 +23,14 @@ public class Main extends Application {
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(450);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                CareTaker careTaker = new CareTaker();
+
+            }
+        });
     }
 
     public static void main(String[] args) {

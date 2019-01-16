@@ -5,6 +5,9 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import player.Player;
+import sources.Track;
+
+import java.io.File;
 
 public class SaveInfromation {
     private static Player player;
@@ -33,5 +36,11 @@ public class SaveInfromation {
         xmlMemento.addContent(volume);
 
         return xmlOutput.outputString(xml);
+    }
+
+    public void load(int actual, String path, double volume) {
+        player.setActualPlaylist(actual);
+        player.setTrack(new Track(new File(path)));
+        player.setVolume(volume);
     }
 }
