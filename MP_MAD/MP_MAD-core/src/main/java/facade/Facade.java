@@ -214,12 +214,24 @@ public class Facade {
     public void undo() {
         if(playlistManager.isUndoAvailable()){
             playlistManager.undo();
+            try {
+                playlistManager.createJSON();
+                playlistManager.createXML();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void redo() {
         if(playlistManager.isRedoAvailable()){
             playlistManager.redo();
+            try {
+                playlistManager.createJSON();
+                playlistManager.createXML();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -249,6 +261,18 @@ public class Facade {
 
     public void setNameIterator(boolean isActive, boolean RandomOrRepeatable) {
         playlistManager.setNameIterator(isActive, RandomOrRepeatable);
+    }
+
+    public List<IPlaylist> getPlaylists() {
+        return playlistManager.getPlaylists();
+    }
+
+    public boolean isUndoAvailable() {
+        return playlistManager.isUndoAvailable();
+    }
+
+    public boolean isRedoAvailable() {
+        return playlistManager.isRedoAvailable();
     }
 
 }

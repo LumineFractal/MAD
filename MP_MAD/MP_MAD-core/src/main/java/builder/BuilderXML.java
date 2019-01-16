@@ -37,7 +37,8 @@ public class BuilderXML implements Builder {
     public String getResult() {
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
-        xmlPlaylists.addContent(playlist);
+        if (playlist != null)
+            xmlPlaylists.addContent(playlist);
         return xmlOutput.outputString(xml);
     }
 

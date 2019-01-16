@@ -89,6 +89,12 @@ public class ListController implements Initializable {
                 trackTable.setItems(tracks);
                 success = true;
             }
+            if (!parent.getRedoButton().isDisable()) {
+                parent.getRedoButton().setDisable(true);
+            }
+            if (parent.getUndoButton().isDisable()) {
+                parent.getUndoButton().setDisable(false);
+            }
         }
         event.setDropCompleted(success);
 
@@ -135,6 +141,12 @@ public class ListController implements Initializable {
             public void handle(ActionEvent event) {
                 facade.removetrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), trackTable.getSelectionModel().getSelectedItem());
                 trackTable.getItems().remove(trackTable.getSelectionModel().getSelectedItem());
+                if (!parent.getRedoButton().isDisable()) {
+                    parent.getRedoButton().setDisable(true);
+                }
+                if (parent.getUndoButton().isDisable()) {
+                    parent.getUndoButton().setDisable(false);
+                }
             }
         });
         contextMenu.getItems().add(delete);
