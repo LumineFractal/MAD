@@ -35,6 +35,6 @@ public class IteratorRepeatable implements TrackIterator<Track> {
 
     @Override
     public ArrayList<Track> getTracks() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return tracks;
     }
 }
