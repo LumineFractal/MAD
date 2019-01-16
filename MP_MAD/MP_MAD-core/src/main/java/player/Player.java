@@ -59,6 +59,10 @@ public class Player extends Observable implements Runnable {
         return track;
     }
 
+    public double getVolume() {
+        return volume;
+    }
+
     public int getActualPlaylist() {
         return actualPlaylist;
     }
