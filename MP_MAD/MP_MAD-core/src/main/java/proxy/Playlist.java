@@ -5,6 +5,7 @@ import sources.Track;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,17 +15,26 @@ import java.util.List;
 public class Playlist implements IPlaylist{
     private String name;
     private List<Track> tracks;
-    private List<CopyPlaylist> proxyPlaylists;
+    private LinkedList<CopyPlaylist> proxyPlaylists;
 
     public Playlist() {
         //TODO
         this.name = "Playlista X";
         this.tracks = new ArrayList<>();
-        this.proxyPlaylists = new ArrayList<>();
+        this.proxyPlaylists = new LinkedList<>();
     }
 
     protected void disconnect(){
-        //TODO
+        for(CopyPlaylist copy : proxyPlaylists){
+            copy.copy();
+        }
+        proxyPlaylists.clear();
+    }
+    
+    public IPlaylist copy(){
+        CopyPlaylist copy = new CopyPlaylist(this);
+        proxyPlaylists.addLast(copy);
+        return copy;
     }
 
     @Override
@@ -50,16 +60,25 @@ public class Playlist implements IPlaylist{
     @Override
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
+        if(!proxyPlaylists.isEmpty()){
+            disconnect();
+        }
     }
 
     @Override
     public void addTrack(Track track) {
         tracks.add(track);
+        if(!proxyPlaylists.isEmpty()){
+            disconnect();
+        }
     }
 
     @Override
     public void removeTrack(Track track) {
         tracks.remove(track);
+        if(!proxyPlaylists.isEmpty()){
+            disconnect();
+        }
     }
 
     @Override

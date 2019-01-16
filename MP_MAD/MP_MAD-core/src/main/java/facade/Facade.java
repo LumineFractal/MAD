@@ -11,6 +11,7 @@ import java.util.List;
 public class Facade {
     private static PlaylistManager playlistManager;
     private static Player player;
+    private Thread thread;
 
     public Facade() {
         player = Player.getInstance();
@@ -35,7 +36,11 @@ public class Facade {
             }
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
-            new Thread(player).start();
+            if(thread==null || !thread.isAlive()){
+                thread = new Thread(player);
+                thread.setDaemon(true);
+                thread.start();
+            }
         }
     }
 
@@ -51,7 +56,7 @@ public class Facade {
 
     public void removePlaylist(String name) {
         for (int i = 0; i < playlistManager.getPlaylists().size(); i++) {
-            if (name == playlistManager.getPlaylist(i).getName()) {
+            if (name.equals(playlistManager.getPlaylist(i).getName())) {
                 playlistManager.addUndo(new CommandRemovePlaylist(playlistManager.getPlaylist(i), i));
                 playlistManager.removePlaylist(i);
                 break;

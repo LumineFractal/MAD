@@ -100,9 +100,11 @@ public class Player extends Observable implements Runnable {
                     notifyObservers();
                     //break;
                 }
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+                System.out.println("Thread ended");
+                break;
+                //ex.printStackTrace();
             }
         }
     }
