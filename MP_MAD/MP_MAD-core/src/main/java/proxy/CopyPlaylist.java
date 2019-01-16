@@ -1,10 +1,11 @@
 package proxy;
 
 import iterator.EnumIterator;
+import sources.Track;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import sources.Track;
 
 /**
  *
@@ -18,8 +19,8 @@ public class CopyPlaylist implements IPlaylist{
     public CopyPlaylist(Playlist oryginal) {
         this.origin = oryginal;
     }
-    
-    public IPlaylist copy(){
+
+    public IPlaylist copy() {
         if(copy != null){
             return null;
         }
@@ -29,7 +30,7 @@ public class CopyPlaylist implements IPlaylist{
         }
         origin = null;
         copy.setName("copy");
-        return  copy;
+        return copy;
     }
     
     @Override
