@@ -14,10 +14,11 @@ public class IteratorRandom implements TrackIterator<Track> {
 
     public IteratorRandom(ArrayList tracks) {
         this.tracks = tracks;
-        wasPlayed = new ArrayList<Boolean>();
+        wasPlayed= new ArrayList<Boolean>(tracks);
     }
 
     public void setList(int index) {
+        System.out.println(wasPlayed.size());
         wasPlayed.set(index, true);
     }
 

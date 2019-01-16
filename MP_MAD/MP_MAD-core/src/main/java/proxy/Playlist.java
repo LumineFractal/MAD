@@ -67,18 +67,18 @@ public class Playlist implements IPlaylist{
 
     @Override
     public void addTrack(Track track) {
-        tracks.add(track);
         if(!proxyPlaylists.isEmpty()){
             disconnect();
         }
+        tracks.add(track);
     }
 
     @Override
     public void removeTrack(Track track) {
-        tracks.remove(track);
         if(!proxyPlaylists.isEmpty()){
             disconnect();
         }
+        tracks.remove(track);
     }
 
     @Override

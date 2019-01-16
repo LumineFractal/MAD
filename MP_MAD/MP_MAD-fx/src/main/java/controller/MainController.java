@@ -3,8 +3,6 @@ package controller;
 import facade.Facade;
 import javafx.application.Platform;
 import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,8 +18,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import player.Player;
-import proxy.IPlaylist;
-import sources.Track;
+import player.PlaylistManager;
+import proxy.CopyPlaylist;
 
 import java.io.IOException;
 import java.net.URL;
@@ -77,18 +75,10 @@ public class MainController implements Initializable {
         return playlistContainer;
     }
 
-    public MenuItem getRedoButton() {
-        return redoButton;
-    }
-
-    public MenuItem getUndoButton() {
-        return undoButton;
-    }
-
     @FXML
     void playButtonActionListener(ActionEvent event) {
         if (!playlistContainer.getTabs().isEmpty()) {
-            //TODO tzeba to te¿ daæ
+            //TODO tzeba to teï¿½ daï¿½
             //facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
             facade.playTrack(-1, null, true);
         }
@@ -130,8 +120,58 @@ public class MainController implements Initializable {
         undoButton.setDisable(false);
         facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
         Tab tab = new Tab(facade.getLastPlaylist().getName());
-        tab.setContextMenu(createContextMenu(tab));
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem delete = new MenuItem("Delete");
+        MenuItem copy = new MenuItem("Copy");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                facade.removePlaylist(tab.getText());
+                playlistContainer.getTabs().remove(tab);
+            }
+        });
 
+        copy.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               PlaylistManager.getInstance().getPlaylists().add(facade.getPlaylist(tab.getText()).copy());
+            }
+        });
+        contextMenu.getItems().add(delete);
+        contextMenu.getItems().add(copy);
+        tab.setContextMenu(contextMenu);
+        playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                    TextField name = new TextField();
+                    String nameOlder = playlistContainer.getSelectionModel().getSelectedItem().getText();
+                    name.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent event1) {
+                            if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
+                                String nameCorrect = facade.namePlaylistUnique(name.getText());
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
+                                facade.getPlaylist(nameOlder).setName(nameCorrect);
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                            } else if (event1.getCode() == KeyCode.ENTER) {
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameOlder);
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                            }
+                        }
+                    });
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText("");
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(name);
+                } else {
+                    for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
+                        if (playlistContainer.getTabs().get(i).getGraphic() != null) {
+                            playlistContainer.getTabs().get(i).setGraphic(null);
+                            playlistContainer.getTabs().get(i).setText(facade.getPlaylist(i).getName());
+                        }
+                    }
+                }
+            }
+        });
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
 
         TableView tableTrack = null;
@@ -148,83 +188,18 @@ public class MainController implements Initializable {
 
         tab.setContent(tableTrack);
         playlistContainer.getTabs().add(tab);
-
-        if (!redoButton.isDisable()) {
-            redoButton.setDisable(true);
-        }
     }
 
    @FXML
     void redoActionListener(ActionEvent event) {
         //TODO
         facade.redo();
-       playlistContainer.getTabs().clear();
-       for (IPlaylist playlist : facade.getPlaylists()) {
-           Tab tab = new Tab(playlist.getName());
-           tab.setContextMenu(createContextMenu(tab));
-           playlistContainer.getTabs().add(tab);
-
-           FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
-
-           TableView tableTrack = null;
-
-           try {
-               tableTrack = loader.load();
-           } catch (IOException ex) {
-               Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-           }
-           ListController listController = loader.getController();
-
-           listController.setParent(this);
-           listController.setFacade(facade);
-
-           tab.setContent(tableTrack);
-           ObservableList<Track> tracks = FXCollections.observableArrayList();
-           tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
-           tableTrack.getItems().addAll(tracks);
-       }
-       if (!facade.isRedoAvailable()) {
-           redoButton.setDisable(true);
-       }
-       if (undoButton.isDisable()) {
-           undoButton.setDisable(false);
-       }
     }
 
     @FXML
     void undoActionListener(ActionEvent event) {
+        //TODO
         facade.undo();
-        playlistContainer.getTabs().clear();
-        for (IPlaylist playlist : facade.getPlaylists()) {
-            Tab tab = new Tab(playlist.getName());
-            tab.setContextMenu(createContextMenu(tab));
-            playlistContainer.getTabs().add(tab);
-
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
-
-            TableView tableTrack = null;
-
-            try {
-                tableTrack = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ListController listController = loader.getController();
-
-            listController.setParent(this);
-            listController.setFacade(facade);
-
-            tab.setContent(tableTrack);
-            ObservableList<Track> tracks = FXCollections.observableArrayList();
-            tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
-            tableTrack.getItems().addAll(tracks);
-        }
-        if (redoButton.isDisable()) {
-            redoButton.setDisable(false);
-        }
-        if (!facade.isUndoAvailable()) {
-            undoButton.setDisable(true);
-        }
     }
 
     @Override
@@ -301,42 +276,6 @@ public class MainController implements Initializable {
         Thread xx = new Thread(t2);
         xx.setDaemon(true);
         xx.start();
-
-        playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
-                    TextField name = new TextField();
-                    String nameOlder = playlistContainer.getSelectionModel().getSelectedItem().getText();
-                    name.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                        @Override
-                        public void handle(KeyEvent event1) {
-                            if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
-                                String nameCorrect = facade.namePlaylistUnique(name.getText());
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
-                                facade.getPlaylist(nameOlder).setName(nameCorrect);
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
-                                if (!redoButton.isDisable()) {
-                                    redoButton.setDisable(true);
-                                }
-                            } else if (event1.getCode() == KeyCode.ENTER) {
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameOlder);
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
-                            }
-                        }
-                    });
-                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText("");
-                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(name);
-                } else {
-                    for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
-                        if (playlistContainer.getTabs().get(i).getGraphic() != null) {
-                            playlistContainer.getTabs().get(i).setGraphic(null);
-                            playlistContainer.getTabs().get(i).setText(facade.getPlaylist(i).getName());
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void setCurrentTime() {
@@ -415,40 +354,6 @@ public class MainController implements Initializable {
             }
         });
 
-    }
-
-    public ContextMenu createContextMenu(Tab tab) {
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem delete = new MenuItem("Delete");
-        MenuItem copy = new MenuItem("Copy");
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                facade.removePlaylist(tab.getText());
-                playlistContainer.getTabs().remove(tab);
-                if (!redoButton.isDisable()) {
-                    redoButton.setDisable(true);
-                }
-                if (undoButton.isDisable()) {
-                    undoButton.setDisable(false);
-                }
-            }
-        });
-
-        copy.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (!redoButton.isDisable()) {
-                    redoButton.setDisable(true);
-                }
-                if (undoButton.isDisable()) {
-                    undoButton.setDisable(false);
-                }
-            }
-        });
-        contextMenu.getItems().add(delete);
-        contextMenu.getItems().add(copy);
-        return contextMenu;
     }
 
 }

@@ -22,6 +22,7 @@ public class Facade {
     }
 
     public void playTrack(int idxPlaylist, Track track, boolean buttonAndDoubleClick) {
+
         if (idxPlaylist == -1 && track == null) {
             if (player.getTrack() != null) {
                 player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);

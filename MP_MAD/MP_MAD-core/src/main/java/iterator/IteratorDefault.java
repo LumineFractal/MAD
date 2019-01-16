@@ -19,7 +19,6 @@ public class IteratorDefault implements TrackIterator<Track> {
     @Override
     public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist) {
         this.indexOfTrackInPlaylist = indexOfTrackInPlaylist;
-        System.out.println(indexOfTrackInPlaylist);
     }
 
     @Override
@@ -30,7 +29,6 @@ public class IteratorDefault implements TrackIterator<Track> {
     @Override
     public Track next() {
         indexOfTrackInPlaylist++;
-        System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getPath());
         return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 }

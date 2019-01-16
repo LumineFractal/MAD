@@ -18,6 +18,7 @@ public interface IPlaylist {
     public ArrayList<Track> getTracks();
     public Track getTrack(int id);
     public void addTrack(Track track);
+    public IPlaylist copy();
 
     void setTracks(List<Track> tracks);
     public void removeTrack(Track track);

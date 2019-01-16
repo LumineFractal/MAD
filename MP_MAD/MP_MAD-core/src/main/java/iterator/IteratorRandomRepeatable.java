@@ -12,11 +12,10 @@ public class IteratorRandomRepeatable implements TrackIterator<Track> {
     private ArrayList<Boolean> wasPlayed;
     private Random generator = new Random();
     private int indexOfTrackInPlaylist = -1;
-    // int e = 0;
 
     public IteratorRandomRepeatable(ArrayList tracks) {
         this.tracks = tracks;
-        wasPlayed = new ArrayList<>();
+        wasPlayed = new ArrayList<>(tracks);
     }
 
     public void setList(int index) {
@@ -48,16 +47,11 @@ public class IteratorRandomRepeatable implements TrackIterator<Track> {
         if (wasPlayed.size() != tracks.size()) {
             createList();
         }
-
         while (wasPlayed.get(indexOfTrackInPlaylist)) {
             indexOfTrackInPlaylist = generator.nextInt(tracks.size());
-
         }
 
-        // System.out.println(wasPlayed.toString());
         setList(indexOfTrackInPlaylist);
-        // System.out.println(wasPlayed.toString());
-        // System.out.println(y + tracks.get(y).getPath());
         if (wasPlayed.stream().allMatch(val -> val == true))
             Collections.fill(wasPlayed, false);
 

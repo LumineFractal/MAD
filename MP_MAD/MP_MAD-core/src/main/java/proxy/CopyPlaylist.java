@@ -19,15 +19,17 @@ public class CopyPlaylist implements IPlaylist{
         this.origin = oryginal;
     }
     
-    protected void copy(){
+    public IPlaylist copy(){
         if(copy != null){
-            return;
+            return null;
         }
         copy = new Playlist();
         for(int i = 0; i < origin.getTracks().size(); i++){
             copy.addTrack(origin.getTrack(i));
         }
         origin = null;
+        copy.setName("copy");
+        return  copy;
     }
     
     @Override
