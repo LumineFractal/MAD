@@ -232,8 +232,13 @@ public class MainController implements Initializable {
         iconLoadingToggleButton(loopmodeButton, "icon_loop");
         iconLoadingToggleButton(playmodeButton, "icon_random");
 
-        volume.setValue(Player.getInstance().getVolume()*100);
-        facade.setVolume(Player.getInstance().getVolume()*100);
+        if(!originator.getState().getXmlString().isEmpty()){
+            volume.setValue(Player.getInstance().getVolume()*100);
+            facade.setVolume(Player.getInstance().getVolume()*100);
+        }else{
+            volume.setValue(50);
+        }
+        
         volume.valueProperty().addListener((Observable observable) -> {
             facade.setVolume(volume.getValue());
         });

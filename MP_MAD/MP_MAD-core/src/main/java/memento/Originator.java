@@ -7,6 +7,10 @@ public class Originator {
         state = new SaveInformation();
     }
 
+    public SaveInformation getState(){
+        return state;
+    }
+    
     public void getStateToMemento(Memento memento) {
         state.setXmlString(memento.getState());
         state.load();

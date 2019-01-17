@@ -50,12 +50,14 @@ public class SaveInformation {
     }
 
     public void load() {
-        String[] elements = xmlString.split(" !%@-@%! ");
-        if (elements.length != 0) {
-            player.setActualPlaylist(Integer.parseInt(elements[0]));
-            player.setVolume(Double.parseDouble(elements[1]));
-            if (elements.length == 3) {
-                player.setTrack(new Track(new File(elements[2])));
+        if(!xmlString.isEmpty()){
+            String[] elements = xmlString.split(" !%@-@%! ");
+            if (elements.length != 0) {
+                player.setActualPlaylist(Integer.parseInt(elements[0]));
+                player.setVolume(Double.parseDouble(elements[1]));
+                if (elements.length == 3) {
+                    player.setTrack(new Track(new File(elements[2])));
+                }
             }
         }
     }

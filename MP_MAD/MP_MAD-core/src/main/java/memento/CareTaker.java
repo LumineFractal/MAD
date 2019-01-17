@@ -45,7 +45,7 @@ public class CareTaker {
     }
 
     public void get() throws ParserConfigurationException, IOException, SAXException {
-        String state = null;
+        String state = "";
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
         File f = new File(s + "/memento");
