@@ -34,7 +34,6 @@ public class Facade {
             } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
-            // playlistManager.setTrackInIterator(track);
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
             playlistManager.setTrackInIterator(track);
@@ -76,10 +75,6 @@ public class Facade {
                 break;
             }
         }
-    }
-
-    public void copyPlaylist(String name) {
-        // playlistManager.createPlaylist();
     }
 
     public void addTrack(int idx, Track track) {
@@ -265,7 +260,6 @@ public class Facade {
     public IPlaylist getPlaylist(int idx) {
         return playlistManager.getPlaylist(idx);
     }
-
     public boolean isPlaying() {
         return player.isPlaying();
     }

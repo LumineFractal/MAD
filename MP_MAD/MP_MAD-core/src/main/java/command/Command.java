@@ -2,7 +2,7 @@ package command;
 
 public interface Command {
 
-    public void undo();
+    void undo();
 
-    public void redo();
+    void redo();
 }

@@ -31,11 +31,9 @@ public class BuilderJSON implements Builder {
     public void addTrack(Track track) {
         tracks.add(track.getPath());
         playlist.put("Tracks", tracks);
-
     }
 
     public String getResult() {
-
         jsonPlaylists.add(playlist);
         json.put("Playlists", jsonPlaylists);
         return json.toJSONString();

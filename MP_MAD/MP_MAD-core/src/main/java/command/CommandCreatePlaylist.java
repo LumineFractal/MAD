@@ -12,13 +12,8 @@ public class CommandCreatePlaylist implements Command {
         this.name = name;
     }
 
-    public void execute() {
-        PlaylistManager.getInstance().createPlaylist(name);
-    }
-
     @Override
     public void undo() {
-        //TODO
         this.playlist = PlaylistManager.getInstance().getPlaylist(0);
         PlaylistManager.getInstance().removePlaylist(0);
     }

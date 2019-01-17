@@ -124,10 +124,7 @@ public class ListController implements Initializable {
             }
             facade.playTrack(facade.getIndexPlaylist(namePlaylist), trackTable.getSelectionModel().getSelectedItem(), false);
             facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
-        } else if (event.getClickCount() == 1 && parent.getPlaylistContainer().getSelectionModel().getSelectedIndex() == facade.getActualPlaylist() && facade.isPlaying()) {
-            trackTable.getSelectionModel().clearSelection();
         }
-
         parent.changePlayButton(false);
     }
 

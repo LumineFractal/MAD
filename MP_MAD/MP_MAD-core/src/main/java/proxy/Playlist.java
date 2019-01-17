@@ -23,8 +23,6 @@ public class Playlist implements IPlaylist{
     }
 
     public Playlist() {
-        //TODO
-
         this.name = name + "copy";
         this.tracks = new ArrayList<>();
         this.proxyPlaylists = new LinkedList<>();

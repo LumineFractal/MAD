@@ -12,18 +12,22 @@ import java.util.List;
  * @author Acerek
  */
 public interface IPlaylist {
-    public String getName();
-    public void setName(String name);
+    String getName();
 
-    public ArrayList<Track> getTracks();
-    public Track getTrack(int id);
-    public void addTrack(Track track);
+    void setName(String name);
 
-    public IPlaylist copy();
+    ArrayList<Track> getTracks();
+
+    Track getTrack(int id);
+
+    void addTrack(Track track);
+
+    IPlaylist copy();
 
     void setTracks(List<Track> tracks);
-    public void removeTrack(Track track);
 
-    public Iterator<Track> getIterator(EnumIterator.iterator iterator);
+    void removeTrack(Track track);
+
+    Iterator<Track> getIterator(EnumIterator.iterator iterator);
 
 }

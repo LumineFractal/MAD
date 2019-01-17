@@ -10,6 +10,7 @@ import java.util.Iterator;
  */
 public interface TrackIterator<Track> extends Iterator {
 
-    public void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist);
-    public ArrayList<Track> getTracks();
+    void setIndexOfTrackInPlaylist(int indexOfTrackInPlaylist);
+
+    ArrayList<Track> getTracks();
 }

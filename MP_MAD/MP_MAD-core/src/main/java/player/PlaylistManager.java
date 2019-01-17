@@ -5,20 +5,6 @@ import builder.BuilderXML;
 import command.Command;
 import iterator.EnumIterator;
 import iterator.TrackIterator;
-import proxy.IPlaylist;
-import proxy.Playlist;
-import sources.Track;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,6 +13,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import proxy.IPlaylist;
+import proxy.Playlist;
+import sources.Track;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class PlaylistManager implements Command, Observer {
 
@@ -36,6 +32,7 @@ public class PlaylistManager implements Command, Observer {
     private List<IPlaylist> playlists;
     private EnumIterator.iterator nameIterator = EnumIterator.iterator.DEFAULT;
     private TrackIterator iterator;
+
 
     private PlaylistManager() {
         playlists = new ArrayList<>();
@@ -71,10 +68,6 @@ public class PlaylistManager implements Command, Observer {
 
     public List<IPlaylist> getPlaylists() {
         return playlists;
-    }
-
-    public EnumIterator.iterator getNameIterator() {
-        return nameIterator;
     }
 
     public void setNameIterator(boolean isActive, boolean RandomOrRepeatable) {
