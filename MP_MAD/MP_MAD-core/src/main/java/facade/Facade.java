@@ -1,6 +1,7 @@
 package facade;
 
 import command.*;
+import java.io.FileNotFoundException;
 import javafx.util.Duration;
 import player.Player;
 import player.PlaylistManager;
@@ -10,6 +11,7 @@ import sources.Track;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.parser.ParseException;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -287,6 +289,14 @@ public class Facade {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void loadFromXML(){
+        playlistManager.loadFromXML();
+    }
+    
+    public void loadFromJSON() throws FileNotFoundException, ParseException{
+        playlistManager.loadFromJSON();
     }
 
 }
