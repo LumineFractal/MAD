@@ -447,11 +447,28 @@ public class MainController implements Initializable {
         copy.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                isCopy = true;
-                copyName = tab.getText() + " copy";
-                addListActionListener(event);
-                isCopy = false;
-                facade.getPlaylists().add(facade.getPlaylist(tab.getText()).copy());
+                Tab tab2 = new Tab(tab.getText() + " copy");
+                tab2.setContextMenu(createContextMenu(tab2));
+
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
+
+                TableView tableTrack = null;
+
+                try {
+                    tableTrack = loader.load();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ListController listController = loader.getController();
+
+                listController.setParent(MainController.this);
+                listController.setFacade(facade);
+
+                facade.getPlaylist(tab.getText()).copy();
+
+                tab2.setContent(tableTrack);
+                playlistContainer.getTabs().add(tab2);
+
                 if (!redoButton.isDisable()) {
                     redoButton.setDisable(true);
                 }
