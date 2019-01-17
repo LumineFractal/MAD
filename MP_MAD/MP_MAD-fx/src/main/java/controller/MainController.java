@@ -93,8 +93,6 @@ public class MainController implements Initializable {
     @FXML
     void playButtonActionListener(ActionEvent event) {
         if (!playlistContainer.getTabs().isEmpty()) {
-            //TODO tzeba to te� da�
-            //facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
             facade.playTrack(-1, null, true);
         }
         changePlayButton(true);
@@ -227,7 +225,8 @@ public class MainController implements Initializable {
         iconLoadingToggleButton(loopmodeButton, "icon_loop");
         iconLoadingToggleButton(playmodeButton, "icon_random");
 
-        volume.setValue(0.5 * 100);
+        volume.setValue(Player.getInstance().getVolume()*100);
+        facade.setVolume(Player.getInstance().getVolume()*100);
         volume.valueProperty().addListener((Observable observable) -> {
             facade.setVolume(volume.getValue());
         });

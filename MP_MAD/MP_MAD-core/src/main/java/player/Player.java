@@ -22,7 +22,6 @@ public class Player extends Observable implements Runnable {
     }
 
     public void play(int actualPlaylist, Track track, boolean buttonAndDoubleClick) {
-
         if (this.track == null) {
             this.track = track;
             this.actualPlaylist = actualPlaylist;

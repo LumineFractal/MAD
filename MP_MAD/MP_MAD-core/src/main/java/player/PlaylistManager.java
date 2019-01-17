@@ -270,13 +270,20 @@ public class PlaylistManager implements Command, Observer {
     public void setTrackInIterator(Track track) {
         setIterator();
         if(playlists.get(Player.getInstance().getActualPlaylist()).getTracks() != iterator.getTracks()){
+            System.out.println("cookiezi");
             iterator = (TrackIterator)playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
         }
-        ArrayList tracks = playlists.get(Player.getInstance().getActualPlaylist()).getTracks();
-        //TODO
+        ArrayList<Track> tracks = playlists.get(Player.getInstance().getActualPlaylist()).getTracks();
         for (int i = 0; i < tracks.size(); i++) {
             if (tracks.get(i).equals(track)) {
                 iterator.setIndexOfTrackInPlaylist(i);
+                return;
+            }
+        }
+        for (int i = 0; i < tracks.size(); i++) {
+            if (tracks.get(i).getPath().equals(track.getPath())) {
+                iterator.setIndexOfTrackInPlaylist(i);
+                return;
             }
         }
     }
