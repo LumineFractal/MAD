@@ -1,6 +1,7 @@
 package proxy;
 
 import iterator.*;
+import player.PlaylistManager;
 import sources.Track;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public class Playlist implements IPlaylist{
     private List<Track> tracks;
     private LinkedList<CopyPlaylist> proxyPlaylists;
 
+    public LinkedList<CopyPlaylist> getProxyPlaylists() {
+        return proxyPlaylists;
+    }
+
     public Playlist() {
         //TODO
 
@@ -29,9 +34,11 @@ public class Playlist implements IPlaylist{
         for(CopyPlaylist copy : proxyPlaylists){
             copy.copy();
         }
+        PlaylistManager.getInstance().getPlaylists().addAll(proxyPlaylists);
         proxyPlaylists.clear();
     }
-    
+
+
     public IPlaylist copy(){
         CopyPlaylist copy = new CopyPlaylist(this);
         proxyPlaylists.addLast(copy);

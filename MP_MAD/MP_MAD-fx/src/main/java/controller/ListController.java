@@ -83,6 +83,7 @@ public class ListController implements Initializable {
                 File file = files.get(i);
                 Track track = new Track(file);
                 facade.addTrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), track);
+                parent.loadPlaylists();
                 ObservableList<Track> tracks = FXCollections.observableArrayList();
                 tracks.addAll(facade.getPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()).getTracks());
 
@@ -112,16 +113,24 @@ public class ListController implements Initializable {
     @FXML
     void listTrackActionListener(MouseEvent event) {
         if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY) && !trackTable.getSelectionModel().isEmpty()) {
-            
-            facade.playTrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), trackTable.getSelectionModel().getSelectedItem(), false);
+            String namePlaylist = parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText();
+            if (facade.getPlaylist(namePlaylist) == null) {
+                namePlaylist = namePlaylist.substring(0, namePlaylist.length() - 5);
+            }
+            facade.playTrack(facade.getIndexPlaylist(namePlaylist), trackTable.getSelectionModel().getSelectedItem(), false);
             facade.setTrackInIterator(trackTable.getSelectionModel().getSelectedItem());
         }
+
         parent.changePlayButton(false);
     }
 
     @FXML
     void releasedActionListener(MouseEvent event) {
-        facade.editPlaylist(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), new ArrayList<>(trackTable.getItems()));
+        String namePlaylist = parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText();
+        System.out.println(namePlaylist);
+        if (facade.getPlaylist(namePlaylist) != null) {
+            facade.editPlaylist(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), new ArrayList<>(trackTable.getItems()));
+        }
     }
 
     @Override
@@ -140,6 +149,7 @@ public class ListController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 facade.removetrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), trackTable.getSelectionModel().getSelectedItem());
+                parent.loadPlaylists();
                 trackTable.getItems().remove(trackTable.getSelectionModel().getSelectedItem());
                 if (!parent.getRedoButton().isDisable()) {
                     parent.getRedoButton().setDisable(true);

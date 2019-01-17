@@ -102,8 +102,6 @@ public class Facade {
                 break;
             }
         }
-
-
         if (!isSameList) {
             playlistManager.addUndo(new CommandEditPlaylist(playlistManager.getPlaylist(idx), (ArrayList) tracks));
             playlistManager.getPlaylist(idx).setTracks(tracks);
@@ -256,6 +254,11 @@ public class Facade {
     }
 
     public IPlaylist getPlaylist(String name) {
+        int i = getIndexPlaylist(name);
+        if (i == -1) {
+            return null;
+        }
+
         return playlistManager.getPlaylist(getIndexPlaylist(name));
     }
 

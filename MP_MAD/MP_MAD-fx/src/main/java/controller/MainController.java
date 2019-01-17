@@ -72,12 +72,12 @@ public class MainController implements Initializable {
 
     @FXML
     private Label currentTime;
-    
+
     @FXML
     private Label totalLength;
     public Boolean isCopy = false;
     public String copyName;
-    
+
     public TabPane getPlaylistContainer() {
         return playlistContainer;
     }
@@ -133,12 +133,10 @@ public class MainController implements Initializable {
     @FXML
     void addListActionListener(ActionEvent event) {
         undoButton.setDisable(false);
-        Tab tab;
-        if (!isCopy) {
-            facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
-            tab = new Tab(facade.getLastPlaylist().getName());
-        } else
-            tab = new Tab(copyName);
+
+        facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
+        Tab tab = new Tab(facade.getLastPlaylist().getName());
+
         tab.setContextMenu(createContextMenu(tab));
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
@@ -163,17 +161,17 @@ public class MainController implements Initializable {
         }
     }
 
-   @FXML
+    @FXML
     void redoActionListener(ActionEvent event) {
         facade.redo();
-       loadPlaylists();
+        loadPlaylists();
 
-       if (!facade.isRedoAvailable()) {
-           redoButton.setDisable(true);
-       }
-       if (undoButton.isDisable()) {
-           undoButton.setDisable(false);
-       }
+        if (!facade.isRedoAvailable()) {
+            redoButton.setDisable(true);
+        }
+        if (undoButton.isDisable()) {
+            undoButton.setDisable(false);
+        }
     }
 
     @FXML
@@ -285,11 +283,11 @@ public class MainController implements Initializable {
                 while (true) {
                     if ((player.getMediaPlayer() != null)) {
                         Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    totalLength.setText(facade.timeConverter(player.getTrack().getLength().toMillis()));
-                                }
-                            }); 
+                            @Override
+                            public void run() {
+                                totalLength.setText(facade.timeConverter(player.getTrack().getLength().toMillis()));
+                            }
+                        });
                         //chyba isTrackAssigned bedzie mozna wywalic
                         if (progressBar.isValueChanging() == false && player.isPlaying() && player.getTrack() != null) {
                             double timeMilis = player.getMediaPlayer().getCurrentTime().toMillis();
@@ -301,7 +299,7 @@ public class MainController implements Initializable {
                                 public void run() {
                                     currentTime.setText(facade.timeConverter(timeMilis));
                                 }
-                            }); 
+                            });
                         }
                     }
                     //jak ani razu nie uruchomimy piosenki
@@ -468,6 +466,10 @@ public class MainController implements Initializable {
 
                 tab2.setContent(tableTrack);
                 playlistContainer.getTabs().add(tab2);
+
+                ObservableList<Track> tracks = FXCollections.observableArrayList();
+                tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
+                tableTrack.getItems().addAll(tracks);
 
                 if (!redoButton.isDisable()) {
                     redoButton.setDisable(true);
