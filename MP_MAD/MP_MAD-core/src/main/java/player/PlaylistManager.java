@@ -157,7 +157,6 @@ public class PlaylistManager implements Command, Observer {
         File f = new File(s + "/playlists");
         if (!f.exists() || !f.isDirectory()) {
             new File("playlists").mkdirs();
-            System.out.println("Tworzenie folderu");
         }
         File ww = new File(s + "/playlists", "playlists.xml");
         ww.createNewFile();
@@ -181,7 +180,6 @@ public class PlaylistManager implements Command, Observer {
         File f = new File(s + "/playlists");
         if (!f.exists() || !f.isDirectory()) {
             new File("playlists").mkdirs();
-            System.out.println("Tworzenie folderu");
         }
         File ww = new File(s + "/playlists", "playlists.json");
         ww.createNewFile();
@@ -270,7 +268,6 @@ public class PlaylistManager implements Command, Observer {
     public void setTrackInIterator(Track track) {
         setIterator();
         if(playlists.get(Player.getInstance().getActualPlaylist()).getTracks() != iterator.getTracks()){
-            System.out.println("cookiezi");
             iterator = (TrackIterator)playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
         }
         ArrayList<Track> tracks = playlists.get(Player.getInstance().getActualPlaylist()).getTracks();

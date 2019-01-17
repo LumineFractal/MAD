@@ -75,8 +75,8 @@ public class MainController implements Initializable {
 
     @FXML
     private Label totalLength;
-    public Boolean isCopy = false;
-    public String copyName;
+    
+    public int selectedTab;
 
     public TabPane getPlaylistContainer() {
         return playlistContainer;
@@ -193,7 +193,7 @@ public class MainController implements Initializable {
 
         facade.loadFromXML();
         loadPlaylists();
-
+        
         try {
             careTaker.get();
         } catch (ParserConfigurationException e) {
@@ -204,6 +204,13 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
         originator.getStateToMemento(careTaker.getMemento());
+        
+        selectedTab = facade.getActualPlaylist();
+        
+        if(playlistContainer.getTabs().size() != 0){
+            playlistContainer.getSelectionModel().select(selectedTab);
+        }
+
 
         changePlayButton(false);
 
@@ -249,6 +256,9 @@ public class MainController implements Initializable {
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
                                 facade.setNamePlaylist(nameOlder, nameCorrect);
                                 playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                                if (undoButton.isDisable()) {
+                                    undoButton.setDisable(false);
+                                }
                                 if (!redoButton.isDisable()) {
                                     redoButton.setDisable(true);
                                 }
@@ -268,6 +278,7 @@ public class MainController implements Initializable {
                         }
                     }
                 }
+                selectedTab = playlistContainer.getSelectionModel().getSelectedIndex();
             }
         });
 
@@ -287,12 +298,16 @@ public class MainController implements Initializable {
                                 totalLength.setText(facade.timeConverter(player.getTrack().getLength().toMillis()));
                             }
                         });
-                        //chyba isTrackAssigned bedzie mozna wywalic
                         if (progressBar.isValueChanging() == false && player.isPlaying() && player.getTrack() != null) {
                             double timeMilis = player.getMediaPlayer().getCurrentTime().toMillis();
                             double timePercent = (timeMilis / player.getMediaPlayer().getStopTime().toMillis() * 100);
                             progressBar.setValue(timePercent);
-
+                            
+//                            TableView tableView = (TableView) playlistContainer.getTabs().get(facade.getActualPlaylist()).getContent();
+//                            tableView.getSelectionModel().select(facade.getIndexOfTrack());
+                            //facade.selectedTrack();
+                            //MainController.this.loadPlaylists();
+                            
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -301,7 +316,6 @@ public class MainController implements Initializable {
                             });
                         }
                     }
-                    //jak ani razu nie uruchomimy piosenki
                     try {
                         Thread.sleep(250);
                     } catch (InterruptedException e) {
@@ -420,6 +434,10 @@ public class MainController implements Initializable {
             ObservableList<Track> tracks = FXCollections.observableArrayList();
             tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
             tableTrack.getItems().addAll(tracks);
+        }
+        
+        if(playlistContainer.getTabs().size() != 0){
+            playlistContainer.getSelectionModel().select(selectedTab);
         }
     }
 

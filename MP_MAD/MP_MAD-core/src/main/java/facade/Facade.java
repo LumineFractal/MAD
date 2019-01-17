@@ -29,13 +29,12 @@ public class Facade {
 
         if (idxPlaylist == -1 && track == null) {
 
-            System.out.println(player.getTrack().getPath());
-
             if (player.getTrack() != null) {
                 player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);
             } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
+            playlistManager.setTrackInIterator(track);
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
             playlistManager.setTrackInIterator(track);
@@ -294,6 +293,9 @@ public class Facade {
             Playlist playlist = (Playlist) getPlaylist(namePlaylist);
             playlistManager.addUndo(new CommandEditNamePlaylist(playlist.getProxyPlaylists().get(0), newName));
             playlist.getProxyPlaylists().get(0).setName(newName);
+        }else{
+            playlistManager.addUndo(new CommandEditNamePlaylist(getPlaylist(olderName), newName));
+            getPlaylist(olderName).setName(newName);
         }
         try {
             playlistManager.createJSON();
@@ -310,5 +312,21 @@ public class Facade {
     public void loadFromJSON() throws FileNotFoundException, ParseException{
         playlistManager.loadFromJSON();
     }
+    
+    public int getActualPlaylist(){
+        return player.getActualPlaylist();
+    }
 
+    public int getIndexOfTrack(){
+        for(int i = 0 ;i<playlistManager.getPlaylists().get(player.getActualPlaylist()).getTracks().size(); i++){
+            if(playlistManager.getPlaylists().get(player.getActualPlaylist()).getTrack(i).equals(player.getTrack())){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    public void selectedTrack(){
+        playlistManager.getPlaylist(player.getActualPlaylist()).getTrack(getIndexOfTrack()).setIsPlaying(" >");
+    }
 }

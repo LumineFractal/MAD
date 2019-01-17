@@ -29,7 +29,7 @@ public class ListController implements Initializable {
     private Facade facade;
 
     @FXML
-    private TableColumn<?, Integer> nr;
+    private TableColumn<Track, String> nr;
 
     @FXML
     private TableColumn<Track, String> trackNumber;
@@ -73,7 +73,6 @@ public class ListController implements Initializable {
 
     @FXML
     void handle7(DragEvent event) {
-        //System.out.println("On Drag Dropped");
         Dragboard db = event.getDragboard();
         List<File> files = (ArrayList<File>) db.getContent(DataFormat.FILES);
 
@@ -147,7 +146,8 @@ public class ListController implements Initializable {
         year.setCellValueFactory(new PropertyValueFactory<Track, String>("year"));
         genre.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
         time.setCellValueFactory(track -> new ReadOnlyStringWrapper(facade.timeConverter(track.getValue().getLength().toMillis())));
-
+        nr.setCellValueFactory(new PropertyValueFactory<Track, String>("isPlaying"));
+        
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(new EventHandler<ActionEvent>() {

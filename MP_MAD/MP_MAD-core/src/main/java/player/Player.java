@@ -111,13 +111,10 @@ public class Player extends Observable implements Runnable {
                 if (hasEnded()) {
                     setChanged();
                     notifyObservers();
-                    //break;
                 }
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
-                System.out.println("Thread ended");
                 break;
-                //ex.printStackTrace();
             }
         }
     }
