@@ -9,7 +9,7 @@ import sources.Track;
 
 import java.io.File;
 
-public class SaveInfromation {
+public class SaveInformation {
     private static Player player;
     private Element xmlMemento = new Element("Memento");
     private Document xml = new Document(xmlMemento);
@@ -23,7 +23,7 @@ public class SaveInfromation {
         this.xmlString = xmlString;
     }
 
-    public SaveInfromation() {
+    public SaveInformation() {
         player = Player.getInstance();
     }
 
@@ -50,12 +50,13 @@ public class SaveInfromation {
     }
 
     public void load() {
-        String[] elements = xmlString.split(" ");
+        String[] elements = xmlString.split(" !%@-@%! ");
         if (elements.length != 0) {
             player.setActualPlaylist(Integer.parseInt(elements[0]));
             player.setVolume(Double.parseDouble(elements[1]));
-            if (elements.length == 3)
+            if (elements.length == 3) {
                 player.setTrack(new Track(new File(elements[2])));
+            }
         }
     }
 }

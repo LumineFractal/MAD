@@ -1,17 +1,17 @@
 package facade;
 
 import command.*;
-import java.io.FileNotFoundException;
 import javafx.util.Duration;
+import org.json.simple.parser.ParseException;
 import player.Player;
 import player.PlaylistManager;
 import proxy.IPlaylist;
 import sources.Track;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.simple.parser.ParseException;
 
 public class Facade {
     private static PlaylistManager playlistManager;
@@ -27,9 +27,12 @@ public class Facade {
     public void playTrack(int idxPlaylist, Track track, boolean buttonAndDoubleClick) {
 
         if (idxPlaylist == -1 && track == null) {
+
+            System.out.println(player.getTrack().getPath());
+
             if (player.getTrack() != null) {
                 player.play(player.getActualPlaylist(), player.getTrack(), buttonAndDoubleClick);
-            } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {;
+            } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
         } else {

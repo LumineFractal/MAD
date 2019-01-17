@@ -1,10 +1,10 @@
 package memento;
 
 public class Originator {
-    private SaveInfromation state;
+    private SaveInformation state;
 
     public Originator() {
-        state = new SaveInfromation();
+        state = new SaveInformation();
     }
 
     public void getStateToMemento(Memento memento) {

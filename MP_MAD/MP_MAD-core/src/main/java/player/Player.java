@@ -65,6 +65,8 @@ public class Player extends Observable implements Runnable {
 
     public void setTrack(Track track) {
         this.track = track;
+        Media hit = new Media(new File(track.getPath()).toURI().toString());
+        mediaPlayer = new MediaPlayer(hit);
     }
 
     public void setActualPlaylist(int actualPlaylist) {

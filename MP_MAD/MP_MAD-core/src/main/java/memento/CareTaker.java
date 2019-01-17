@@ -61,7 +61,7 @@ public class CareTaker {
 
             Element elm = (Element) save;
 
-            state = elm.getElementsByTagName("Playlist").item(0).getTextContent() + " " + elm.getElementsByTagName("Volume").item(0).getTextContent() + " " + elm.getElementsByTagName("Track").item(0).getTextContent();
+            state = elm.getElementsByTagName("Playlist").item(0).getTextContent() + " !%@-@%! " + elm.getElementsByTagName("Volume").item(0).getTextContent() + " !%@-@%! " + elm.getElementsByTagName("Track").item(0).getTextContent();
 
         }
         memento.setState(state);

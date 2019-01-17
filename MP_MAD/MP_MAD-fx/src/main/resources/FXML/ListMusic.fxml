@@ -7,7 +7,7 @@
            xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.ListController">
    <columns>
-      <TableColumn fx:id="nr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="Nr." />
+       <TableColumn fx:id="nr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" text="#"/>
       <TableColumn fx:id="name" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Name" />
       <TableColumn fx:id="artist" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Artist" />
       <TableColumn fx:id="album" maxWidth="1.7976931348623157E308" minWidth="55.0" prefWidth="-1.0" text="Album" />
