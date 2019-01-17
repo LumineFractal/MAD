@@ -38,6 +38,11 @@ public class Playlist implements IPlaylist{
         proxyPlaylists.clear();
     }
 
+    protected void disconnectOneCopy(IPlaylist playlist) {
+        PlaylistManager.getInstance().getPlaylists().add(playlist);
+        proxyPlaylists.remove(playlist);
+    }
+
 
     public IPlaylist copy(){
         CopyPlaylist copy = new CopyPlaylist(this);

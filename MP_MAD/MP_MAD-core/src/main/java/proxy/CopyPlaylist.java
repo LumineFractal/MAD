@@ -46,7 +46,9 @@ public class CopyPlaylist implements IPlaylist{
     @Override
     public void setName(String name){
         if(copy == null){
-            origin.disconnect();
+            copy();
+            origin.disconnectOneCopy(copy);
+            origin = null;
         }
         copy.setName(name);
     }
@@ -74,7 +76,9 @@ public class CopyPlaylist implements IPlaylist{
     @Override
     public void addTrack(Track track) {
          if(copy == null){
-            origin.disconnect();
+             copy();
+             origin.disconnectOneCopy(copy);
+             origin = null;
         }
         copy.addTrack(track);
     }
@@ -82,7 +86,9 @@ public class CopyPlaylist implements IPlaylist{
     @Override
     public void setTracks(List<Track> tracks) {
         if(copy == null){
-            origin.disconnect();
+            copy();
+            origin.disconnectOneCopy(copy);
+            origin = null;
         }
         copy.setTracks(tracks);
     }
@@ -90,7 +96,9 @@ public class CopyPlaylist implements IPlaylist{
     @Override
     public void removeTrack(Track track){
         if(copy == null){
-            origin.disconnect();
+            copy();
+            origin.disconnectOneCopy(copy);
+            origin = null;
         }
         copy.removeTrack(track);
     }

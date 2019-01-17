@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import player.Player;
 import player.PlaylistManager;
 import proxy.IPlaylist;
+import proxy.Playlist;
 import sources.Track;
 
 import java.io.FileNotFoundException;
@@ -287,8 +288,13 @@ public class Facade {
     }
 
     public void setNamePlaylist(String olderName, String newName) {
-        playlistManager.addUndo(new CommandEditNamePlaylist(getPlaylist(olderName), newName));
-        getPlaylist(olderName).setName(newName);
+        String namePlaylist = olderName;
+        if (getPlaylist(olderName) == null) {
+            namePlaylist = olderName.substring(0, namePlaylist.length() - 5);
+            Playlist playlist = (Playlist) getPlaylist(namePlaylist);
+            playlistManager.addUndo(new CommandEditNamePlaylist(playlist.getProxyPlaylists().get(0), newName));
+            playlist.getProxyPlaylists().get(0).setName(newName);
+        }
         try {
             playlistManager.createJSON();
             playlistManager.createXML();

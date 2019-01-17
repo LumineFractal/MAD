@@ -82,7 +82,13 @@ public class ListController implements Initializable {
             for (int i = 0; i < files.size(); i++) {
                 File file = files.get(i);
                 Track track = new Track(file);
-                facade.addTrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), track);
+
+                String namePlaylist = parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText();
+                if (facade.getPlaylist(namePlaylist) != null) {
+                    facade.addTrack(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), track);
+                } else {
+
+                }
                 parent.loadPlaylists();
                 ObservableList<Track> tracks = FXCollections.observableArrayList();
                 tracks.addAll(facade.getPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()).getTracks());
@@ -127,7 +133,6 @@ public class ListController implements Initializable {
     @FXML
     void releasedActionListener(MouseEvent event) {
         String namePlaylist = parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText();
-        System.out.println(namePlaylist);
         if (facade.getPlaylist(namePlaylist) != null) {
             facade.editPlaylist(facade.getIndexPlaylist(parent.getPlaylistContainer().getSelectionModel().getSelectedItem().getText()), new ArrayList<>(trackTable.getItems()));
         }
