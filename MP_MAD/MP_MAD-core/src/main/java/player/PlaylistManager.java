@@ -10,11 +10,23 @@ import proxy.Playlist;
 import sources.Track;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class PlaylistManager implements Command, Observer {
 
@@ -23,6 +35,7 @@ public class PlaylistManager implements Command, Observer {
     private Stack<Command> redoList = new Stack<>();
     private List<IPlaylist> playlists;
     private EnumIterator.iterator nameIterator = EnumIterator.iterator.DEFAULT;
+    private TrackIterator iterator;
 
     private PlaylistManager() {
         playlists = new ArrayList<>();
@@ -178,8 +191,67 @@ public class PlaylistManager implements Command, Observer {
 
     }
 
-    private TrackIterator iterator;
+    public void loadFromXML(){
+        try {
+            Path currentRelativePath = Paths.get("");
+            String relativePath = currentRelativePath.toAbsolutePath().toString();
+            File file = new File(relativePath + "/playlists", "playlists.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(file);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("Playlist");
 
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);        
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    Playlist loadedPlaylist = new Playlist();
+                    loadedPlaylist.setName(eElement.getAttribute("name"));
+                    NodeList list = eElement.getElementsByTagName("Track");
+                    for(int temp2 = 0; temp2 < list.getLength(); temp2++){
+                        String trackPath = eElement.getElementsByTagName("Track").item(temp2).getTextContent();
+                        Track track = new Track(new File(trackPath));
+                        loadedPlaylist.addTrack(track);
+                    }
+                    playlists.add(loadedPlaylist);
+                }
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+    
+    public void loadFromJSON() throws FileNotFoundException, ParseException{
+        Path currentRelativePath = Paths.get("");
+        String relativePath = currentRelativePath.toAbsolutePath().toString();
+        //File file = new File(relativePath + "/playlists", "playlists.json");
+        
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader(relativePath + "/playlists/playlists.json"));
+            
+            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println(jsonObject.toString());
+            
+            JSONArray msg = (JSONArray) jsonObject.get("Playlists");
+            Iterator<String> iterator2 = msg.iterator();
+            while (iterator2.hasNext()) {
+                //System.out.println(iterator2.next());
+            }
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void setIterator() {
         if (iterator == null) {
             this.iterator = (TrackIterator) playlists.get(Player.getInstance().getActualPlaylist()).getIterator(nameIterator);
