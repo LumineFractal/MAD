@@ -45,20 +45,25 @@ public class CareTaker {
     }
 
     public void get() throws ParserConfigurationException, IOException, SAXException {
+        String state = null;
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
-        File read = new File(s + "/memento/memento.xml");
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(read);
-        doc.getDocumentElement().normalize();
-        NodeList node = doc.getElementsByTagName("Memento");
-        Node save = node.item(0);
+        File f = new File(s + "/memento");
+        if (f.exists() && f.isDirectory()) {
+            File read = new File(s + "/memento/memento.xml");
 
-        Element elm = (Element) save;
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(read);
+            doc.getDocumentElement().normalize();
+            NodeList node = doc.getElementsByTagName("Memento");
+            Node save = node.item(0);
 
-        String state = elm.getElementsByTagName("Playlist").item(0).getTextContent() + " " + elm.getElementsByTagName("Volume").item(0).getTextContent() + " " + elm.getElementsByTagName("Track").item(0).getTextContent();
+            Element elm = (Element) save;
 
+            state = elm.getElementsByTagName("Playlist").item(0).getTextContent() + " " + elm.getElementsByTagName("Volume").item(0).getTextContent() + " " + elm.getElementsByTagName("Track").item(0).getTextContent();
+
+        }
         memento.setState(state);
     }
 }

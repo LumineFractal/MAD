@@ -75,7 +75,8 @@ public class MainController implements Initializable {
     
     @FXML
     private Label totalLength;
-
+    public Boolean isCopy = false;
+    public String copyName;
     
     public TabPane getPlaylistContainer() {
         return playlistContainer;
@@ -132,8 +133,12 @@ public class MainController implements Initializable {
     @FXML
     void addListActionListener(ActionEvent event) {
         undoButton.setDisable(false);
-        facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
-        Tab tab = new Tab(facade.getLastPlaylist().getName());
+        Tab tab;
+        if (!isCopy) {
+            facade.createPlaylist(facade.namePlaylistUnique("Playlist"));
+            tab = new Tab(facade.getLastPlaylist().getName());
+        } else
+            tab = new Tab(copyName);
         tab.setContextMenu(createContextMenu(tab));
 
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
@@ -161,32 +166,8 @@ public class MainController implements Initializable {
    @FXML
     void redoActionListener(ActionEvent event) {
         facade.redo();
+       loadPlaylists();
 
-       playlistContainer.getTabs().clear();
-       for (IPlaylist playlist : facade.getPlaylists()) {
-           Tab tab = new Tab(playlist.getName());
-           tab.setContextMenu(createContextMenu(tab));
-           playlistContainer.getTabs().add(tab);
-
-           FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
-
-           TableView tableTrack = null;
-
-           try {
-               tableTrack = loader.load();
-           } catch (IOException ex) {
-               Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-           }
-           ListController listController = loader.getController();
-
-           listController.setParent(this);
-           listController.setFacade(facade);
-
-           tab.setContent(tableTrack);
-           ObservableList<Track> tracks = FXCollections.observableArrayList();
-           tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
-           tableTrack.getItems().addAll(tracks);
-       }
        if (!facade.isRedoAvailable()) {
            redoButton.setDisable(true);
        }
@@ -198,32 +179,8 @@ public class MainController implements Initializable {
     @FXML
     void undoActionListener(ActionEvent event) {
         facade.undo();
+        loadPlaylists();
 
-        playlistContainer.getTabs().clear();
-        for (IPlaylist playlist : facade.getPlaylists()) {
-            Tab tab = new Tab(playlist.getName());
-            tab.setContextMenu(createContextMenu(tab));
-            playlistContainer.getTabs().add(tab);
-
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
-
-            TableView tableTrack = null;
-
-            try {
-                tableTrack = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ListController listController = loader.getController();
-
-            listController.setParent(this);
-            listController.setFacade(facade);
-
-            tab.setContent(tableTrack);
-            ObservableList<Track> tracks = FXCollections.observableArrayList();
-            tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
-            tableTrack.getItems().addAll(tracks);
-        }
         if (redoButton.isDisable()) {
             redoButton.setDisable(false);
         }
@@ -436,6 +393,35 @@ public class MainController implements Initializable {
 
     }
 
+    public void loadPlaylists() {
+
+        playlistContainer.getTabs().clear();
+        for (IPlaylist playlist : facade.getPlaylists()) {
+            Tab tab = new Tab(playlist.getName());
+            tab.setContextMenu(createContextMenu(tab));
+            playlistContainer.getTabs().add(tab);
+
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/FXML/ListMusic.fxml"));
+
+            TableView tableTrack = null;
+
+            try {
+                tableTrack = loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ListController listController = loader.getController();
+
+            listController.setParent(this);
+            listController.setFacade(facade);
+
+            tab.setContent(tableTrack);
+            ObservableList<Track> tracks = FXCollections.observableArrayList();
+            tracks.addAll(facade.getPlaylist(tab.getText()).getTracks());
+            tableTrack.getItems().addAll(tracks);
+        }
+    }
+
     public ContextMenu createContextMenu(Tab tab) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");
@@ -457,6 +443,10 @@ public class MainController implements Initializable {
         copy.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                isCopy = true;
+                copyName = tab.getText() + " copy";
+                addListActionListener(event);
+                isCopy = false;
                 facade.getPlaylists().add(facade.getPlaylist(tab.getText()).copy());
                 if (!redoButton.isDisable()) {
                     redoButton.setDisable(true);

@@ -28,8 +28,8 @@ public class CopyPlaylist implements IPlaylist{
         for(int i = 0; i < origin.getTracks().size(); i++){
             copy.addTrack(origin.getTrack(i));
         }
+        copy.setName(origin.getName() + " copy");
         origin = null;
-        copy.setName("copy");
         return copy;
     }
     
