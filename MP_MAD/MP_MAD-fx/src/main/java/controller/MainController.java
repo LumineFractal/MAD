@@ -19,10 +19,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import memento.CareTaker;
+import memento.Originator;
+import org.xml.sax.SAXException;
 import player.Player;
 import proxy.IPlaylist;
 import sources.Track;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -230,6 +234,20 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        Originator originator = new Originator();
+        CareTaker careTaker = new CareTaker();
+        try {
+            careTaker.get();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        originator.getStateToMemento(careTaker.getMemento());
+
         changePlayButton(false);
 
         playButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -257,6 +275,42 @@ public class MainController implements Initializable {
 
         progressBar.setOnMouseReleased((MouseEvent event) -> {
             setCurrentTime();
+        });
+
+        playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                    TextField name = new TextField();
+                    String nameOlder = playlistContainer.getSelectionModel().getSelectedItem().getText();
+                    name.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent event1) {
+                            if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
+                                String nameCorrect = facade.namePlaylistUnique(name.getText());
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
+                                facade.setNamePlaylist(nameOlder, nameCorrect);
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                                if (!redoButton.isDisable()) {
+                                    redoButton.setDisable(true);
+                                }
+                            } else if (event1.getCode() == KeyCode.ENTER) {
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameOlder);
+                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
+                            }
+                        }
+                    });
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText("");
+                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(name);
+                } else {
+                    for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
+                        if (playlistContainer.getTabs().get(i).getGraphic() != null) {
+                            playlistContainer.getTabs().get(i).setGraphic(null);
+                            playlistContainer.getTabs().get(i).setText(facade.getPlaylist(i).getName());
+                        }
+                    }
+                }
+            }
         });
 
         refreshProgressBar();
@@ -302,42 +356,6 @@ public class MainController implements Initializable {
         Thread xx = new Thread(t2);
         xx.setDaemon(true);
         xx.start();
-
-        playlistContainer.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
-                    TextField name = new TextField();
-                    String nameOlder = playlistContainer.getSelectionModel().getSelectedItem().getText();
-                    name.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                        @Override
-                        public void handle(KeyEvent event1) {
-                            if (event1.getCode() == KeyCode.ENTER && !name.getText().isEmpty()) {
-                                String nameCorrect = facade.namePlaylistUnique(name.getText());
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameCorrect);
-                                facade.setNamePlaylist(nameOlder, nameCorrect);
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
-                                if (!redoButton.isDisable()) {
-                                    redoButton.setDisable(true);
-                                }
-                            } else if (event1.getCode() == KeyCode.ENTER) {
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText(nameOlder);
-                                playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(null);
-                            }
-                        }
-                    });
-                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setText("");
-                    playlistContainer.getTabs().get(playlistContainer.getSelectionModel().getSelectedIndex()).setGraphic(name);
-                } else {
-                    for (int i = 0; i < playlistContainer.getTabs().size(); i++) {
-                        if (playlistContainer.getTabs().get(i).getGraphic() != null) {
-                            playlistContainer.getTabs().get(i).setGraphic(null);
-                            playlistContainer.getTabs().get(i).setText(facade.getPlaylist(i).getName());
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void setCurrentTime() {

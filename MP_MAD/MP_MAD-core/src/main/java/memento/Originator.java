@@ -8,15 +8,12 @@ public class Originator {
     }
 
     public void getStateToMemento(Memento memento) {
-        //Element element = new Element();
-        //element.getElementsByTagName("Playlist").item(0).getTextContent()
-        //
-        // state.load();
+        state.setXmlString(memento.getState());
+        state.load();
     }
 
     public Memento saveStateToMemento() {
-        Memento memento = new Memento();
-        memento.setState(state.createXML());
-        return memento;
+        state.createXML();
+        return new Memento(state.getXmlString());
     }
 }

@@ -7,6 +7,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import memento.CareTaker;
+import memento.Originator;
+
+import java.io.IOException;
 
 public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
@@ -27,8 +30,15 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                Originator originator = new Originator();
                 CareTaker careTaker = new CareTaker();
 
+                careTaker.setMemento(originator.saveStateToMemento());
+                try {
+                    careTaker.save();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

@@ -13,12 +13,21 @@ public class SaveInfromation {
     private static Player player;
     private Element xmlMemento = new Element("Memento");
     private Document xml = new Document(xmlMemento);
+    private String xmlString;
+
+    public String getXmlString() {
+        return xmlString;
+    }
+
+    public void setXmlString(String xmlString) {
+        this.xmlString = xmlString;
+    }
 
     public SaveInfromation() {
         player = Player.getInstance();
     }
 
-    public String createXML() {
+    public void createXML() {
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
 
@@ -26,7 +35,9 @@ public class SaveInfromation {
         actualPlaylist.setText(String.valueOf(player.getActualPlaylist()));
 
         Element track = new Element("Track");
-        track.setText(player.getTrack().getPath());
+        if (player.getTrack() != null) {
+            track.setText(player.getTrack().getPath());
+        }
 
         Element volume = new Element("Volume");
         volume.setText(String.valueOf(player.getVolume()));
@@ -35,12 +46,14 @@ public class SaveInfromation {
         xmlMemento.addContent(track);
         xmlMemento.addContent(volume);
 
-        return xmlOutput.outputString(xml);
+        xmlString = xmlOutput.outputString(xml);
     }
 
-    public void load(int actual, String path, double volume) {
-        player.setActualPlaylist(actual);
-        player.setTrack(new Track(new File(path)));
-        player.setVolume(volume);
+    public void load() {
+        String[] elements = xmlString.split(" ");
+        player.setActualPlaylist(Integer.parseInt(elements[0]));
+        player.setVolume(Double.parseDouble(elements[1]));
+        if (elements.length == 3)
+            player.setTrack(new Track(new File(elements[2])));
     }
 }

@@ -18,8 +18,16 @@ import java.nio.file.Paths;
 public class CareTaker {
     private Memento memento;
 
+    public CareTaker() {
+        this.memento = new Memento();
+    }
+
     public void setMemento(Memento memento) {
         this.memento = memento;
+    }
+
+    public Memento getMemento() {
+        return memento;
     }
 
     public void save() throws IOException {
@@ -37,7 +45,9 @@ public class CareTaker {
     }
 
     public void get() throws ParserConfigurationException, IOException, SAXException {
-        File read = new File("/memento/memento.xml");
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        File read = new File(s + "/memento/memento.xml");
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(read);
@@ -46,6 +56,9 @@ public class CareTaker {
         Node save = node.item(0);
 
         Element elm = (Element) save;
-        memento.setState(elm.toString());
+
+        String state = elm.getElementsByTagName("Playlist").item(0).getTextContent() + " " + elm.getElementsByTagName("Volume").item(0).getTextContent() + " " + elm.getElementsByTagName("Track").item(0).getTextContent();
+
+        memento.setState(state);
     }
 }
