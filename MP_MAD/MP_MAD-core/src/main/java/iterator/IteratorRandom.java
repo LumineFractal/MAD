@@ -52,7 +52,6 @@ public class IteratorRandom implements TrackIterator<Track> {
             indexOfTrackInPlaylist = generator.nextInt(tracks.size());
         }
         setList(indexOfTrackInPlaylist);
-        System.out.println(indexOfTrackInPlaylist + tracks.get(indexOfTrackInPlaylist).getTitle());
         return (Track) tracks.get(indexOfTrackInPlaylist);
     }
 

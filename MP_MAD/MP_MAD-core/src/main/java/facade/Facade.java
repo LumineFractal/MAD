@@ -34,7 +34,7 @@ public class Facade {
             } else if (!playlistManager.getPlaylists().isEmpty() && !playlistManager.getPlaylist(player.getActualPlaylist()).getTracks().isEmpty()) {
                 player.play(0, playlistManager.getPlaylist(0).getTrack(0), buttonAndDoubleClick);
             }
-            playlistManager.setTrackInIterator(track);
+            // playlistManager.setTrackInIterator(track);
         } else {
             player.play(idxPlaylist, track, buttonAndDoubleClick);
             playlistManager.setTrackInIterator(track);
@@ -319,7 +319,7 @@ public class Facade {
 
     public int getIndexOfTrack(){
         for(int i = 0 ;i<playlistManager.getPlaylists().get(player.getActualPlaylist()).getTracks().size(); i++){
-            if(playlistManager.getPlaylists().get(player.getActualPlaylist()).getTrack(i).getPath().equals(player.getTrack().getPath())){
+            if (playlistManager.getPlaylists().get(player.getActualPlaylist()).getTrack(i).equals(player.getTrack())) {
                 return i;
             }
         }
