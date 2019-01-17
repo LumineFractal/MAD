@@ -325,8 +325,4 @@ public class Facade {
         }
         return -1;
     }
-    
-    public void selectedTrack(){
-        playlistManager.getPlaylist(player.getActualPlaylist()).getTrack(getIndexOfTrack()).setIsPlaying(" >");
-    }
 }

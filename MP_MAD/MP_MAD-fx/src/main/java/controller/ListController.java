@@ -148,7 +148,6 @@ public class ListController implements Initializable {
         year.setCellValueFactory(new PropertyValueFactory<Track, String>("year"));
         genre.setCellValueFactory(new PropertyValueFactory<Track, String>("genre"));
         time.setCellValueFactory(track -> new ReadOnlyStringWrapper(facade.timeConverter(track.getValue().getLength().toMillis())));
-        nr.setCellValueFactory(new PropertyValueFactory<Track, String>("isPlaying"));
         
         ContextMenu contextMenu = new ContextMenu();
         MenuItem delete = new MenuItem("Delete");

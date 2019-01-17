@@ -26,7 +26,6 @@ public class Track {
     private String trackNumber;
     private Duration length;
     private String path;
-    private String isPlaying;
 
 
     public Track(File file) {
@@ -53,7 +52,6 @@ public class Track {
         this.trackNumber = tag.getFirst(FieldKey.TRACK);
         this.length = Duration.seconds(f.getAudioHeader().getTrackLength());
         this.path = file.getAbsolutePath();
-        this.isPlaying = "";
     }
 
     public String getTitle() {
@@ -86,14 +84,5 @@ public class Track {
 
     public String getPath() {
         return path;
-    }
-
-    public String getIsPlaying() {
-        return isPlaying;
-    }
-
-    public void setIsPlaying(String isPlaying) {
-        this.isPlaying = isPlaying;
-    }
-    
+    }  
 }
