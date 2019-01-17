@@ -319,7 +319,7 @@ public class Facade {
 
     public int getIndexOfTrack(){
         for(int i = 0 ;i<playlistManager.getPlaylists().get(player.getActualPlaylist()).getTracks().size(); i++){
-            if(playlistManager.getPlaylists().get(player.getActualPlaylist()).getTrack(i).equals(player.getTrack())){
+            if(playlistManager.getPlaylists().get(player.getActualPlaylist()).getTrack(i).getPath().equals(player.getTrack().getPath())){
                 return i;
             }
         }

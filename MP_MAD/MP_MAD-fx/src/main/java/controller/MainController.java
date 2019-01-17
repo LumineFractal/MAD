@@ -303,11 +303,9 @@ public class MainController implements Initializable {
                             double timePercent = (timeMilis / player.getMediaPlayer().getStopTime().toMillis() * 100);
                             progressBar.setValue(timePercent);
                             
-//                            TableView tableView = (TableView) playlistContainer.getTabs().get(facade.getActualPlaylist()).getContent();
-//                            tableView.getSelectionModel().select(facade.getIndexOfTrack());
-                            //facade.selectedTrack();
-                            //MainController.this.loadPlaylists();
-                            
+                            TableView tableView = (TableView) playlistContainer.getTabs().get(facade.getActualPlaylist()).getContent();
+                            tableView.getSelectionModel().select(facade.getIndexOfTrack());
+                                                        
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
