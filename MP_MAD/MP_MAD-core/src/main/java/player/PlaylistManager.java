@@ -226,22 +226,31 @@ public class PlaylistManager implements Command, Observer {
     public void loadFromJSON() throws FileNotFoundException, ParseException{
         Path currentRelativePath = Paths.get("");
         String relativePath = currentRelativePath.toAbsolutePath().toString();
-        //File file = new File(relativePath + "/playlists", "playlists.json");
         
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new FileReader(relativePath + "/playlists/playlists.json"));
             
             JSONObject jsonObject = (JSONObject) obj;
-            System.out.println(jsonObject.toString());
             
-            JSONArray msg = (JSONArray) jsonObject.get("Playlists");
-            Iterator<String> iterator2 = msg.iterator();
-            while (iterator2.hasNext()) {
-                //System.out.println(iterator2.next());
+            
+            
+            JSONArray playlisty = (JSONArray) jsonObject.get("Playlists");
+            Iterator<JSONObject> iteratorPlalists = playlisty.iterator();
+            while(iteratorPlalists.hasNext()) {
+                JSONObject jsonPlaylist = iteratorPlalists.next();
+                Playlist playlist = new Playlist();
+                playlist.setName((String) jsonPlaylist.get("Playlist title"));
+                
+                JSONArray trackList = (JSONArray) jsonPlaylist.get("Tracks");
+                Iterator<String> iteratorTracks = trackList.iterator();
+                while(iteratorTracks.hasNext()) {
+                    String trackPath = iteratorTracks.next();
+                    Track loadedTrack = new Track(new File(trackPath));
+                    playlist.addTrack(loadedTrack);
+                }
+                playlists.add(playlist);
             }
-
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
