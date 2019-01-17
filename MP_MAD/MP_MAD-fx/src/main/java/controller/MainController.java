@@ -194,6 +194,10 @@ public class MainController implements Initializable {
 
         Originator originator = new Originator();
         CareTaker careTaker = new CareTaker();
+
+        facade.loadFromXML();
+        loadPlaylists();
+
         try {
             careTaker.get();
         } catch (ParserConfigurationException e) {
